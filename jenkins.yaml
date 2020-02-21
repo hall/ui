@@ -2,6 +2,10 @@ common:
   images:
   - hobbyfarm/ui
   eventRegistryKeys:
+  - event: commit/jenkins
+    registryKey: trainingDev
+  - event: commit/jenkins
+    registryKey: trainingProd
   - event: commit/develop
     registryKey: trainingDev
   - event: commit/develop
