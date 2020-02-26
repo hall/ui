@@ -56,7 +56,7 @@ export class TerminalComponent implements OnChanges {
               this.endpoint = "ws://" + this.endpoint
             }
         }
-        this.socket = new WebSocket(this.endpoint + "/shell/" + this.vmid + "/connect?auth=" + this.jwtHelper.tokenGetter());
+
 
         this.term = new Terminal({
           theme: {
