@@ -6,24 +6,27 @@ import {
     OnChanges,
     OnDestroy,
     DoCheck,
+    ViewEncapsulation,
   } from '@angular/core';
-  
+
   import { DynamicHTMLRenderer, DynamicHTMLRef } from './renderer';
-  
+
   @Component({
     selector: 'dynamic-html',
     template: '',
+    styleUrls: ['dynamic-html.scss'],
+    encapsulation: ViewEncapsulation.None,
   })
   export class DynamicHTMLComponent implements DoCheck, OnChanges, OnDestroy {
     @Input() content: string;
-  
+
     private ref: DynamicHTMLRef = null;
-  
+
     constructor(
       private renderer: DynamicHTMLRenderer,
       private elementRef: ElementRef,
     ) { }
-  
+
     ngOnChanges(_: SimpleChanges) {
       if (this.ref) {
         this.ref.destroy();
@@ -33,13 +36,13 @@ import {
         this.ref = this.renderer.renderInnerHTML(this.elementRef, this.content);
       }
     }
-  
+
     ngDoCheck() {
       if (this.ref) {
         this.ref.check();
       }
     }
-  
+
     ngOnDestroy() {
       if (this.ref) {
         this.ref.destroy();
