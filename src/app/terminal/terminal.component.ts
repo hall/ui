@@ -47,6 +47,7 @@ export class TerminalComponent implements OnChanges {
 
     @HostListener('window:resize', ['$event'])
     onResize(event?) {
+        this.fitAddon.fit()
         this.screenHeight = window.innerHeight;
         this.screenWidth = window.innerWidth;
         this.term.resize(this.terminalWidth, Math.floor(this.screenHeight * this.scalingFactor));
@@ -151,9 +152,5 @@ export class TerminalComponent implements OnChanges {
         if (this.vmid != null && this.endpoint != null) {
             this.buildSocket();
         }
-    }
-
-    onResize() {
-      this.fitAddon.fit()
     }
 }
