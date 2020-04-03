@@ -7,6 +7,7 @@ import { CtrService } from '../services/ctr.service';
 import { CodeExec } from '../ctr/CodeExec';
 import { ShellService } from '../services/shell.service';
 import { environment } from 'src/environments/environment';
+import { HostListener } from '@angular/core';
 
 @Component({
     selector: 'terminal',
@@ -26,6 +27,11 @@ export class TerminalComponent implements OnChanges {
     @Input()
     endpoint: string;
 
+    terminalWidth: number = 80;
+
+    public screenHeight: number;
+    public screenWidth: number;
+
     public term: any;
     public fitAddon: FitAddon;
     public attachAddon: AttachAddon;
@@ -35,11 +41,36 @@ export class TerminalComponent implements OnChanges {
         public ctrService: CtrService,
         public shellService: ShellService
     ) {
+        this.screenHeight = window.innerHeight;
+        this.screenWidth = window.innerWidth;
+    }
 
+    @HostListener('window:resize', ['$event'])
+    onResize(event?) {
+        this.screenHeight = window.innerHeight;
+        this.screenWidth = window.innerWidth;
+        this.term.resize(this.terminalWidth, Math.floor(this.screenHeight * this.scalingFactor));
     }
 
     public paste(code: string) {
         this.term.write(code);
+    }
+
+    public get scalingFactor() {
+        // determine scaling factor.
+        if (this.screenHeight >= 1200) {
+            return 0.04;
+        } else if (this.screenHeight >= 992) {
+            return 0.03;
+        } else if (this.screenHeight >= 768) {
+            return 0.03;
+        } else if (this.screenHeight >= 576) {
+            return 0.03;
+        } else if (this.screenHeight < 576) {
+            return 0.025;
+        } else {
+            return 0.04;
+        }
     }
 
     @ViewChild("terminal", { static: true }) terminalDiv: ElementRef;

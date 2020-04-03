@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Scenario } from './Scenario';
+import { Course } from '../course/course';
 import { HttpClient } from '@angular/common/http';
 import { concatMap, delay, switchMap } from 'rxjs/operators';
 import { Session } from '../Session';
-import { from } from 'rxjs';
+import { from, of, throwError } from 'rxjs';
 import { ScenarioService } from '../services/scenario.service';
 import { SessionService } from '../services/session.service';
 import { VMClaimService } from '../services/vmclaim.service';
@@ -80,7 +81,7 @@ export class ScenarioComponent implements OnInit {
                 }),
                 concatMap((s: Scenario) => {
                     this.scenario = s;
-                    return this.ssService.new(s.id,this.courseid);
+                    return this.ssService.new(s.id, this.courseid);
                 }),
                 concatMap((s: Session) => {
                     this.session = s;
@@ -97,10 +98,7 @@ export class ScenarioComponent implements OnInit {
                 (s: VMClaim) => {
                     this.vmclaims.push(s);
                     this.dynamicallyBinding = this.vmclaims.filter(v => v.bind_mode == 'dynamic').every(v => !v.ready)
-                },
-                // (c: Course) => {
-                //     this.courseid = c.id;
-                // }
+                }
             )
     }
 }
