@@ -11,10 +11,12 @@ envsub() {
     var=$(set | grep "^$1=")
     if [ "${var}" != "" ]; then
         eval val="\$$(echo $var | cut -f1 -d=)"
-
-        sed -i'' "s|#####${1}#####|${val}|g;" /usr/share/nginx/html/main*.js*
-        echo "Configured with ${1}=${val}"
+    else
+        val=""
     fi
+
+    sed -i'' "s|#####${1}#####|${val}|g;" /usr/share/nginx/html/main*.js*
+    echo "Configured with ${1}=${val}"
 }
 
 envsub HF_SERVER
