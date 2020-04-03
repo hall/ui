@@ -6,6 +6,9 @@ common:
     registryKey: public
   - event: commit/master
     registryKey: public
+  - eventRegex: tag/(.*)
+    registryKey: public
+  gitAlternateKey: github
 build:
   composeProfileMap:
     sdk: ./cicd/docker/sdk
@@ -13,3 +16,10 @@ build:
   pullImages:
     - node:lts-alpine
     - nginx:stable-alpine
+promote:
+  baseVersion: "0.1.0"
+  gitTagPrefix: boxboat/
+  promotionMap:
+    prod:
+      event: commit/master
+      promoteToEvent: tag/release
