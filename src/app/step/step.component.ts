@@ -430,7 +430,7 @@ export class StepComponent implements OnInit, DoCheck {
                     if (activeTabId == t.id) {
                         // ... resize the terminal that corresponds to the index of the active tab.
                         // e.g. tab could have ID of 45, but would be index 2 in list of tabs, so reload terminal with index 2.
-                        this.terms.toArray()[i].resize();
+                        this.terms.toArray()[i].onResize();
                     }
                 }
             )

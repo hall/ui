@@ -48,10 +48,6 @@ export class TerminalComponent implements OnChanges {
 
     @ViewChild("terminal", { static: true }) terminalDiv: ElementRef;
 
-    public resize() {
-        this.fitAddon.fit();
-    }
-
     buildSocket() {
         if (!this.endpoint.startsWith("wss://") && !this.endpoint.startsWith("ws://")) {
             if (environment.server.startsWith("https")) {
