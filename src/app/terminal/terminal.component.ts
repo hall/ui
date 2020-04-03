@@ -7,6 +7,7 @@ import { CtrService } from '../services/ctr.service';
 import { CodeExec } from '../ctr/CodeExec';
 import { ShellService } from '../services/shell.service';
 import { environment } from 'src/environments/environment';
+import { HostListener } from '@angular/core';
 
 @Component({
     selector: 'terminal',
@@ -34,8 +35,11 @@ export class TerminalComponent implements OnChanges {
         public jwtHelper: JwtHelperService,
         public ctrService: CtrService,
         public shellService: ShellService
-    ) {
+    ) { }
 
+    @HostListener('window:resize', ['$event'])
+    onResize(event?) {
+        this.fitAddon.fit()
     }
 
     public paste(code: string) {
@@ -43,10 +47,6 @@ export class TerminalComponent implements OnChanges {
     }
 
     @ViewChild("terminal", { static: true }) terminalDiv: ElementRef;
-
-    public resize() {
-        this.fitAddon.fit();
-    }
 
     buildSocket() {
         if (!this.endpoint.startsWith("wss://") && !this.endpoint.startsWith("ws://")) {
@@ -120,9 +120,5 @@ export class TerminalComponent implements OnChanges {
         if (this.vmid != null && this.endpoint != null) {
             this.buildSocket();
         }
-    }
-
-    onResize() {
-      this.fitAddon.fit()
     }
 }

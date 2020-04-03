@@ -26,8 +26,8 @@ export class HomeComponent implements OnInit {
         public helper: JwtHelperService,
         public http: HttpClient,
         public userService: UserService,
-        public courseService: CourseService,
         public scenarioService: ScenarioService,
+        public courseService: CourseService
     ) {
     }
 

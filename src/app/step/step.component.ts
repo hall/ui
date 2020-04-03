@@ -114,7 +114,7 @@ export class StepComponent implements OnInit, DoCheck {
         this.markdownService.renderer.code = (code: string, language: string, isEscaped: boolean) => {
             // block text
             if (language.length == 0) {
-                return "<pre>" + escape(code) + "</pre>";
+                return "<pre style='padding: 5px 10px;'>" + escape(code) + "</pre>";
             }
             // determine what kind of special injection we need to do
             if (language.split(":")[0] == 'ctr') {
@@ -138,7 +138,7 @@ export class StepComponent implements OnInit, DoCheck {
                 return `<vminfo id="${config.id}"></vminfo>`;
             } else {
                 // highlighted code
-                return "<pre class='language-"+language+"'>" +
+                return "<pre style='padding: 5px 10px;' class='language-"+language+"'>" +
                          "<code class='language-"+ language +"'>" +
                            escape(code) +
                          "</code>" +
@@ -430,7 +430,7 @@ export class StepComponent implements OnInit, DoCheck {
                     if (activeTabId == t.id) {
                         // ... resize the terminal that corresponds to the index of the active tab.
                         // e.g. tab could have ID of 45, but would be index 2 in list of tabs, so reload terminal with index 2.
-                        this.terms.toArray()[i].resize();
+                        this.terms.toArray()[i].onResize();
                     }
                 }
             )

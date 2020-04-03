@@ -1,7 +1,6 @@
 import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Scenario } from '../scenario/Scenario';
-import { Router } from '@angular/router';
 import { ServerResponse } from '../ServerResponse';
 import { environment } from 'src/environments/environment';
 import { Course } from '../course/course';
@@ -13,9 +12,9 @@ import { CourseService } from '../services/course.service';
 })
 export class ScenarioCard implements OnInit {
     @Input()
-    public scenarioid: string;
+    public scenarioid: string = "";
     @Input()
-    public courseid: string;
+    public courseid: string = "";
     @Output()
     scenarioModal = new EventEmitter();
 
@@ -23,9 +22,7 @@ export class ScenarioCard implements OnInit {
     public error: string;
 
     constructor(
-        public http: HttpClient,
-        public router: Router,
-        public courseService: CourseService,
+        public http: HttpClient
     ) {
     }
 
