@@ -7,8 +7,14 @@ else
     HF_SERVER=http://$HF_SERVER
 fi
 
-sed -i'' "s|#####HF_SERVER#####|$HF_SERVER|g;" /usr/share/nginx/html/main*.js*
+envsub() {
+    eval val="\$$(set | grep "^$1.*=" | cut -f 1 -d '=')"
 
-echo "Configured with HF_SERVER=$HF_SERVER"
+    sed -i'' "s|#####${1}#####|${val}|g;" /usr/share/nginx/html/main*.js*
+    echo "Configured with ${1}=${val}"
+}
+
+envsub HF_SERVER
+envsub HF_SUPPORT
 
 nginx -g 'daemon off;' # overriding nginx default startup
