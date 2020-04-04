@@ -70,7 +70,10 @@ export class TerminalComponent implements OnChanges {
           },
           fontFamily: "monospace",
           fontSize: 16,
-          letterSpacing: 1.1
+          letterSpacing: 1.1,
+          windowOptions: {
+            setWinSizeChars: true
+          }
         });
         this.attachAddon = new AttachAddon(this.socket);
         this.fitAddon = new FitAddon();
