@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, OnInit, Input, OnChanges, ViewEncapsulation } from '@angular/core';
 import { Terminal } from 'xterm';
-import { FitAddon } from 'xterm-addon-fit';
+import { FitAddon, ITerminalDimensions } from 'xterm-addon-fit';
 import { AttachAddon } from 'xterm-addon-attach';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CtrService } from '../services/ctr.service';
@@ -27,6 +27,7 @@ export class TerminalComponent implements OnChanges {
     @Input()
     endpoint: string;
 
+    public dimensions: ITerminalDimensions;
     public term: any;
     public fitAddon: FitAddon;
     public attachAddon: AttachAddon;
@@ -39,6 +40,10 @@ export class TerminalComponent implements OnChanges {
 
     @HostListener('window:resize', ['$event'])
     onResize(event?) {
+        this.dimensions = this.fitAddon.proposeDimensions()
+        let height = this.dimensions.rows
+        let width = this.dimensions.cols
+        this.socket.send(`\e[8;${height};${width}t`)
         this.fitAddon.fit()
     }
 
