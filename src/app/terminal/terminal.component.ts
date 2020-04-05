@@ -43,7 +43,7 @@ export class TerminalComponent implements OnChanges {
         this.dimensions = this.fitAddon.proposeDimensions()
         let height = this.dimensions.rows
         let width = this.dimensions.cols
-        this.socket.send(`\u001b[8;${height};${width}t`)
+        this.socket.send(`\u001b[${height};${width}t`)
         this.fitAddon.fit()
     }
 
@@ -70,10 +70,7 @@ export class TerminalComponent implements OnChanges {
           },
           fontFamily: "monospace",
           fontSize: 16,
-          letterSpacing: 1.1,
-          windowOptions: {
-            setWinSizeChars: true
-          }
+          letterSpacing: 1.1
         });
         this.attachAddon = new AttachAddon(this.socket);
         this.fitAddon = new FitAddon();
