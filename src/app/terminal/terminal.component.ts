@@ -93,6 +93,7 @@ export class TerminalComponent implements OnChanges {
             this.shellService.setStatus(this.vmname, "Connected");
             this.term.loadAddon(this.attachAddon)
             this.term.focus();
+            this.onResize();
 
             this.ctrService.getCodeStream()
                 .subscribe(
