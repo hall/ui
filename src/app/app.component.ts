@@ -80,7 +80,6 @@ export class AppComponent implements OnInit {
     }
 
     if (environment.support) {
-      console.log(environment.support)
       this.supportEmail = environment.support
     }
   }

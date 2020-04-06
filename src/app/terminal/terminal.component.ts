@@ -43,7 +43,7 @@ export class TerminalComponent implements OnChanges {
         this.dimensions = this.fitAddon.proposeDimensions()
         let height = this.dimensions.rows
         let width = this.dimensions.cols
-        this.socket.send(`\u001b[${height};${width}t`)
+        this.socket.send(`\u001b[8;${height};${width}t`)
         this.fitAddon.fit()
     }
 
