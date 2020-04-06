@@ -8,8 +8,8 @@ common:
     registryKey: public
 build:
   composeProfileMap:
-    sdk: ./cicd/docker/sdk
-    release: ./cicd/docker/release
+    sdk: ./cicd/docker/docker-compose-sdk.yaml
+    release: ./cicd/docker/docker-compose-release.yaml
   pullImages:
     - node:lts-alpine
     - nginx:stable-alpine

@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 export const environment = {
   production: false,
-  server: "https://api.na1dev.hobbyfarm.io"
+  server: "https://api.na1dev.hobbyfarm.io",
+  support: "support@tld.com",
 };
 
 /*

@@ -10,6 +10,9 @@
     </div>
 
     <div class="header-actions">
+      <a *ngIf="supportEmail" (click)="support()" class="nav-link">
+        <clr-icon shape="help"></clr-icon>
+      </a>
       <clr-dropdown clrMenuPosition="bottom-right">
         <button class="nav-text" clrDropdownToggle>
           {{email}}
@@ -44,6 +47,15 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-outline" (click)="logoutModalOpened = false">Cancel</button>
       <button type="button" class="btn btn-danger-outline" (click)="doLogout()">Logout</button>
+    </div>
+  </clr-modal>
+
+  <clr-modal #supportmodal [(clrModalOpen)]="supportModalOpened">
+    <h3 class="modal-title">Have a question?</h3>
+    <div class="modal-body">
+      <p>
+        Contact <a href="mailto://{{ supportEmail }}">{{ supportEmail }}</a>
+      </p>
     </div>
   </clr-modal>
 
