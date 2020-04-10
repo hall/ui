@@ -49,7 +49,7 @@ export class LoginComponent {
           this.background = "url(/assets/login_container_farm.svg)";
         }
 
-        this.eula = this.Config.eula
+        this.eula = atob(this.Config.eula);
     }
 
     @ViewChild("eulamodal", { static: true }) eulaModal: ClrModal;
