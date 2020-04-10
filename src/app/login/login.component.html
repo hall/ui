@@ -56,7 +56,7 @@
   <h3 class="modal-title">End User License Agreement</h3>
   <div class="modal-body">
     <p>
-      {{ eula }}
+      <markdown [data]="eula" (ready)="onReady()"></markdown>
     </p>
   </div>
     <div class="modal-footer">
