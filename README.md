@@ -16,7 +16,7 @@ A file placed at `/config.json` will allow for runtime configuration (e.g., cust
   "title": "Old MacDonald's Farm",
   "favicon": "<base64-encoded image>",
   "logo": "<base64-encoded image>",
-  "eula": "Agree to these terms to use this system.",
+  "eula": "<base64-encoded text>",
   "login": {
     "logo": "<base64-encoded image>",
     "background": "<base64-encoded image>"
