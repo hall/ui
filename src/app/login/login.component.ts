@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User } from './User';
@@ -6,6 +6,7 @@ import { ServerResponse } from '../ServerResponse';
 import { environment } from 'src/environments/environment';
 import { AppConfigService } from '../app-config.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ClrModal } from '@clr/angular';
 
 @Component({
     templateUrl: './login.component.html',
@@ -21,9 +22,12 @@ export class LoginComponent {
     public error: string = "";
     public success: string = "";
     public accesscode: string = "";
+    public eulaModalOpened: boolean = false;
 
     private Config = this.config.getConfig();
     public logo;
+    public eula;
+    public eulaAnwser;
     public background;
 
     public loginactive: boolean = false;
@@ -31,7 +35,8 @@ export class LoginComponent {
         public http: HttpClient,
         public router: Router,
         public config: AppConfigService,
-        private _sanitizer: DomSanitizer
+        private _sanitizer: DomSanitizer,
+        private cdr: ChangeDetectorRef
     ) {
         if (this.Config.login && this.Config.login.logo) {
           this.logo = this._sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + this.Config.login.logo)
@@ -43,9 +48,35 @@ export class LoginComponent {
         } else {
           this.background = "url(/assets/login_container_farm.svg)";
         }
+
+        this.eula = this.Config.eula
+    }
+
+    @ViewChild("eulamodal", { static: true }) eulaModal: ClrModal;
+
+    public agreeToEula(agree: boolean) {
+        if (agree) {
+          this.eulaAnwser = true
+          this.actuallyRegister()
+        } else {
+          this.eulaAnwser = false
+          this.error = "you must agree to the EULA to use this system"
+        }
+        this.eulaModalOpened = false
     }
 
     public register() {
+
+        if (this.eula != null && this.eulaAnwser != true) {
+          this.eulaModal.open();
+          this.cdr.detectChanges();
+        } else {
+          this.actuallyRegister();
+        }
+
+    }
+
+    public actuallyRegister() {
         this.error = "";
         let body = new HttpParams()
             .set("email", this.email)
