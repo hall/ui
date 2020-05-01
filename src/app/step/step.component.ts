@@ -65,6 +65,7 @@ export class StepComponent implements OnInit, DoCheck {
         ".": 0 // seconds
     };
 
+    public keepalive;
     public pauseLastUpdated: Date = new Date();
 
     public get pauseRemainingString() {
@@ -145,6 +146,10 @@ export class StepComponent implements OnInit, DoCheck {
                        "</pre>";
             }
         }
+    }
+
+    stopKeepalive() {
+      this.keepalive.unsubscribe();
     }
 
     getVmClaimVmKeys() {
@@ -244,7 +249,7 @@ export class StepComponent implements OnInit, DoCheck {
             )
 
         // setup keepalive
-        this.ssService.keepalive(this.route.snapshot.paramMap.get("session"))
+        this.keepalive = this.ssService.keepalive(this.route.snapshot.paramMap.get("session"))
             .pipe(
                 repeatWhen(obs => {
                     return obs.pipe(

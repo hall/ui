@@ -29,7 +29,8 @@ const routes: Routes = [
       },
       {
         path: 'session/:session/steps/:step',
-        component: StepComponent
+        component: StepComponent,
+        canDeactivate: ['canDeactivateSession']
       },
       {path: 'terminal', component: TerminalComponent}
     ]

@@ -34,6 +34,7 @@ import { VMService } from './services/vm.service';
 import { VMClaimService } from './services/vmclaim.service';
 import { environment } from 'src/environments/environment';
 import { AppConfigService } from './app-config.service';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 export function tokenGetter() {
   return localStorage.getItem("hobbyfarm_token");
@@ -113,6 +114,18 @@ export function jwtOptionsFactory() {
       useFactory: appInitializerFn,
       multi: true,
       deps: [AppConfigService]
+    },
+    {
+      provide: 'canDeactivateSession',
+      useValue: (
+        component: StepComponent,
+        currentRoute: ActivatedRouteSnapshot,
+        currentState: RouterStateSnapshot,
+        nextState: RouterStateSnapshot
+        ) => {
+          component.stopKeepalive()
+          return true
+        }
     }
   ],
   bootstrap: [RootComponent]
