@@ -123,7 +123,9 @@ export function jwtOptionsFactory() {
         currentState: RouterStateSnapshot,
         nextState: RouterStateSnapshot
         ) => {
-          component.stopKeepalive()
+          if (! nextState.url.includes("/session/")) {
+            component.stopKeepalive()
+          }
           return true
         }
     }
