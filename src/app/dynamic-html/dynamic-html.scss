@@ -2,3 +2,14 @@ ul, ol {
   list-style-position: outside;
   margin-left: 1em;
 }
+
+code {
+  background-color: #eee;
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+
+pre code {
+  // undo the padding from code blocks
+  padding: 0 !important;
+}

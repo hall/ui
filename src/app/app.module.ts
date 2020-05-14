@@ -35,6 +35,7 @@ import { VMClaimService } from './services/vmclaim.service';
 import { environment } from 'src/environments/environment';
 import { AppConfigService } from './app-config.service';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ArraySortPipe } from './utils/sort.component';
 
 export function tokenGetter() {
   return localStorage.getItem("hobbyfarm_token");
@@ -73,7 +74,8 @@ export function jwtOptionsFactory() {
     CtrComponent,
     VMInfoComponent,
     VMClaimComponent,
-    AtobPipe
+    AtobPipe,
+    ArraySortPipe
   ],
   imports: [
     BrowserModule,

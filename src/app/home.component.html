@@ -23,7 +23,7 @@
 
   <div class="clr-row">
     <div class="clr-col-12">
-      <ng-container *ngFor="let c of courses">
+      <ng-container *ngFor="let c of courses | sort:'weight'">
         <h2 class="course-header">{{ c.id }} - {{ c.name | atob }}</h2>
         <span *ngIf="c.inProgress">
           <button class="btn btn-info-outline">Complete</button>
