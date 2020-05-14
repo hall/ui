@@ -36,6 +36,7 @@ import { environment } from 'src/environments/environment';
 import { AppConfigService } from './app-config.service';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { ArraySortPipe } from './utils/sort.component';
+import { AngularSplitModule } from 'angular-split';
 
 export function tokenGetter() {
   return localStorage.getItem("hobbyfarm_token");
@@ -80,6 +81,7 @@ export function jwtOptionsFactory() {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularSplitModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     ClarityModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, QueryList, DoCheck, ViewChild, Renderer2, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChildren, QueryList, DoCheck, ViewChild, Renderer2, ElementRef, HostListener } from "@angular/core";
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Step } from './Step';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -25,7 +25,7 @@ import { VMInfoConfig } from '../VMInfoConfig';
 import { environment } from 'src/environments/environment';
 import { ShellService } from '../services/shell.service';
 import { escape } from 'lodash';
-
+import { SplitComponent } from 'angular-split';
 
 @Component({
     templateUrl: 'step.component.html',
@@ -57,6 +57,8 @@ export class StepComponent implements OnInit, DoCheck {
     public text: string = "";
 
     public pauseOpen: boolean = false;
+    public direction: string = 'horizontal';
+    public sidebarSize: number = 30;
 
     public pauseremaining = {
         "d": 0,
@@ -89,6 +91,7 @@ export class StepComponent implements OnInit, DoCheck {
         return remaining;
     }
 
+    @ViewChild("split", { static: false }) splitComponent: SplitComponent;
     @ViewChildren('term') terms: QueryList<TerminalComponent> = new QueryList();
     @ViewChildren('tabcontent') tabContents: QueryList<ClrTabContent> = new QueryList();
     @ViewChildren('tab') tabs: QueryList<ClrTab> = new QueryList();
@@ -204,7 +207,15 @@ export class StepComponent implements OnInit, DoCheck {
         return content;
     }
 
+    ngAfterViewInit(): void {
+        this.splitComponent.dragProgress$.subscribe(() => {
+          window.dispatchEvent(new Event('resize'));
+        })
+    }
+
     ngOnInit() {
+        this.flipSplit(window.innerWidth)
+
         this.route.paramMap
             .pipe(
                 first(),
@@ -437,4 +448,20 @@ export class StepComponent implements OnInit, DoCheck {
             )
         });
     }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.flipSplit(event.target.innerWidth)
+    }
+
+    flipSplit(size) {
+        if (size < 992) {
+            this.direction = 'vertical'
+            this.sidebarSize = 50
+        } else {
+            this.direction = 'horizontal'
+            this.sidebarSize = 30
+        }
+    }
+
 }

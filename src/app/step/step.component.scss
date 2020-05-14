@@ -1,18 +1,19 @@
+:host {
+  width: 100%;
+}
 .btn-next {
     float: right;
 }
 
-#terminal-column {
-    position: fixed;
-    right: 0;
-    padding: 0;
-    bottom: 0;
-    height: calc(100% - 60px);
-    width: 100%;
+as-split-gutter {
+  height: initial !important;
+}
+as-split-area {
+  height: 100% !important;
+  overflow: hidden !important;
 }
 
 span.shell-status {
-    width: 100%;
     border: 1px solid #ccc;
     background-color: white;
 }
@@ -53,7 +54,6 @@ table {
 }
 
 #sidebar {
-  position: fixed;
   margin: 0;
   height: calc(100% - 60px);
   display: flex;
