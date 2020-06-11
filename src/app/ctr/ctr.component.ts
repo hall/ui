@@ -5,8 +5,8 @@ import { OnMount } from '../dynamic-html';
 @Component({
     selector: 'ctr',
     template:  `
-        <pre (click)="ctr()">{{code}}</pre>
-        <i><clr-icon shape="angle"></clr-icon> Click to run on {{target}}</i>
+        <pre>{{code}}</pre>
+        <i (click)="ctr()"><clr-icon shape="caret right"></clr-icon> Click to run on {{target}}</i>
     `,
     styleUrls: ['ctr.component.scss']
 })
