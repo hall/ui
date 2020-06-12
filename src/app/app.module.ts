@@ -1,43 +1,54 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ClarityModule } from '@clr/angular';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RootComponent } from './root.component';
-import { HomeComponent } from './home.component';
 import '@clr/icons';
 import '@clr/icons/shapes/all-shapes';
-import { CourseComponent } from './course/course.component';
-import { ScenarioComponent } from './scenario/scenario.component';
-import { TerminalComponent } from './terminal/terminal.component';
-import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
-import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './login/login.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthGuard } from './auth.guard';
-import { ScenarioCard } from './scenariocard/scenariocard.component';
-import { StepComponent } from './step/step.component';
-import { VMClaimComponent } from './vmclaim/vmclaim.component';
-import { AtobPipe } from './atob.pipe';
-import { MarkdownModule } from 'ngx-markdown';
-import { DynamicHTMLModule } from './dynamic-html';
-import { CtrComponent } from './ctr/ctr.component';
-import { VMInfoComponent } from './vminfo/vminfo.component';
-import { CtrService } from './services/ctr.service';
-import { VMInfoService } from './vminfo/vminfo.service';
-import { ScenarioService } from './services/scenario.service';
-import { CourseService } from './services/course.service';
-import { SessionService } from './services/session.service';
-import { StepService } from './services/step.service';
-import { VMService } from './services/vm.service';
-import { VMClaimService } from './services/vmclaim.service';
-import { environment } from 'src/environments/environment';
-import { AppConfigService } from './app-config.service';
+import { AccessCodesComponent } from './admin/configuration/accesscodes/accesscodes.component';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { ArraySortPipe } from './utils/sort.component';
+import { AdminComponent } from './admin/admin/admin.component';
 import { AngularSplitModule } from 'angular-split';
-
+import { AppComponent } from './app.component';
+import { AppConfigService } from './app-config.service';
+import { AppRoutingModule } from './app-routing.module';
+import { ArraySortPipe } from './utils/sort.component';
+import { AtobPipe } from './atob.pipe';
+import { AuthGuard } from './auth.guard';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { ClarityModule } from '@clr/angular';
+import { ConfigurationComponent } from './admin/configuration/configuration.component';
+import { CourseComponent } from './course/course.component';
+import { CourseService } from './services/course.service';
+import { CtrComponent } from './ctr/ctr.component';
+import { CtrService } from './services/ctr.service';
+import { DlDateTimeDateModule, DlDateTimePickerModule} from 'angular-bootstrap-datetimepicker';
+import { DynamicHTMLModule } from './dynamic-html';
+import { EditAccessCodeComponent } from './admin/configuration/accesscodes/edit-accesscode/edit-accesscode.component';
+import { EditEnvironmentComponent } from './admin/configuration/environments/edit-environment/edit-environment.component';
+import { EnvironmentsComponent } from './admin/configuration/environments/environments.component';
+import { EventComponent } from './admin/event/event.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './home.component';
+import { HttpClientModule } from '@angular/common/http';
+import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { LMarkdownEditorModule } from 'ngx-markdown-editor';
+import { LoginComponent } from './login/login.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { NewScheduledEventComponent } from './admin/event/new-scheduled-event/new-scheduled-event.component';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { RootComponent } from './root.component';
+import { ScenarioCard } from './scenariocard/scenariocard.component';
+import { ScenarioComponent } from './scenario/scenario.component';
+import { ScenarioService } from './services/scenario.service';
+import { ScenariosComponent } from './admin/scenarios/scenarios.component';
+import { SessionService } from './services/session.service';
+import { StepComponent } from './step/step.component';
+import { StepService } from './services/step.service';
+import { TerminalComponent } from './terminal/terminal.component';
+import { UserComponent } from './admin/user/user.component';
+import { VMClaimComponent } from './vmclaim/vmclaim.component';
+import { VMClaimService } from './services/vmclaim.service';
+import { VMInfoComponent } from './vminfo/vminfo.component';
+import { VMInfoService } from './vminfo/vminfo.service';
+import { VMService } from './services/vm.service';
+import { environment } from 'src/environments/environment';
 export function tokenGetter() {
   return localStorage.getItem("hobbyfarm_token");
 }
@@ -63,31 +74,44 @@ export function jwtOptionsFactory() {
 
 @NgModule({
   declarations: [
+    AccessCodesComponent,
+    AdminComponent,
     AppComponent,
-    RootComponent,
-    HomeComponent,
-    CourseComponent,
-    ScenarioComponent,
-    TerminalComponent,
-    LoginComponent,
-    ScenarioCard,
-    StepComponent,
-    CtrComponent,
-    VMInfoComponent,
-    VMClaimComponent,
+    ArraySortPipe,
     AtobPipe,
-    ArraySortPipe
+    ConfigurationComponent,
+    CourseComponent,
+    CtrComponent,
+    EditAccessCodeComponent,
+    EditEnvironmentComponent,
+    EnvironmentsComponent,
+    EventComponent,
+    HomeComponent,
+    LoginComponent,
+    NewScheduledEventComponent,
+    RootComponent,
+    ScenarioCard,
+    ScenarioComponent,
+    ScenariosComponent,
+    StepComponent,
+    TerminalComponent,
+    UserComponent,
+    VMClaimComponent,
+    VMInfoComponent,
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
     AngularSplitModule.forRoot(),
-    FormsModule,
-    ReactiveFormsModule,
-    ClarityModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
+    BrowserModule,
+    ClarityModule,
+    DlDateTimeDateModule,
+    DlDateTimePickerModule,
+    FormsModule,
     HttpClientModule,
+    LMarkdownEditorModule,
     MarkdownModule.forRoot(),
+    ReactiveFormsModule,
     DynamicHTMLModule.forRoot({
       components: [
         { component: CtrComponent, selector: 'ctr' },
@@ -102,17 +126,18 @@ export function jwtOptionsFactory() {
     }),
   ],
   providers: [
+    AdminComponent,
     AppComponent,
+    AppConfigService,
     AuthGuard,
-    CtrService,
-    VMInfoService,
     CourseService,
+    CtrService,
     ScenarioService,
     SessionService,
     StepService,
-    VMService,
     VMClaimService,
-    AppConfigService,
+    VMInfoService,
+    VMService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFn,
@@ -136,6 +161,4 @@ export function jwtOptionsFactory() {
   ],
   bootstrap: [RootComponent]
 })
-export class AppModule {
-
-}
+export class AppModule {}

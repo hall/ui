@@ -1,0 +1,172 @@
+<clr-wizard #wizard_ac clrWizardSize="xl" (clrWizardOnFinish)="saveAccessCode()">
+    <clr-wizard-title>Edit Access Code</clr-wizard-title>
+
+    <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+    <clr-wizard-button [type]="'previous'">Previous</clr-wizard-button>
+    <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+    <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+
+    <clr-wizard-page [clrWizardPageNextDisabled]="!accessCodeDetails.valid" (clrWizardPageNext)="copyAccessCodeDetails()">
+        <ng-template clrPageTitle>Basic Information</ng-template>
+
+        <form clrForm [formGroup]="accessCodeDetails">
+            <clr-input-container>
+                <label>Code</label>
+                <input clrInput type="text" placeholder="code" name="code"
+                    formControlName="code" required />
+                <clr-control-error *clrIfError="'required'">Access code name is required</clr-control-error>
+                <clr-control-error *clrIfError="'minlength'">Access code name must be longer than 4 characters
+                </clr-control-error>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Description</label>
+                <input clrInput type="text" placeholder="description" name="description"
+                    formControlName="description"/>
+            </clr-input-container>
+
+            <clr-input-container>
+                <label>Expiration</label>
+            </clr-input-container>
+            <clr-signpost>
+              <button class="btn btn-link" clrSignpostTrigger>Set Date Time</button>
+              <clr-signpost-content *clrIfOpen #expirationTimeSignpost>
+                <dl-date-time-picker (change)="setExpiration($event)" startView="day" maxView="year" minView="minute"
+                  minuteStep="30"></dl-date-time-picker>
+              </clr-signpost-content>
+              <ng-container *ngIf="ac.expiration">
+                &nbsp;{{ ac.expiration | date:'long' }}
+                <button class="btn btn-icon btn-link btn-sm" (click)="unsetExpiration()">
+                  <clr-icon shape="times" class="is-error"></clr-icon>
+                </button>
+              </ng-container>
+            </clr-signpost>
+
+            <clr-input-container>
+                <label>Max Users</label>
+                <input clrInput type="number" placeholder="max users" name="max_users"
+                    formControlName="max_users"/>
+            </clr-input-container>
+
+            <clr-textarea-container>
+                <label>Allowed Domains</label>
+                <textarea clrTextarea type="text" placeholder="allowed domains" name="allowed_domains"
+                    formControlName="allowed_domains"></textarea>>
+                <clr-control-helper>one domain on each line</clr-control-helper>
+            </clr-textarea-container>
+
+            <clr-input-container>
+                <label>Restricted Bind</label>
+                <input clrInput type="text" placeholder="restricted bind value" name="restricted_bind_value"
+                    formControlName="restricted_bind_value"/>
+                <clr-control-helper>if set, users will only be allocated VMs that have been created with this value</clr-control-helper>
+            </clr-input-container>
+        </form>
+    </clr-wizard-page>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Select Course(s)</ng-template>
+    <i>Expand a row to view scenarios within that course</i>
+    <clr-datagrid [clrDgSelected]="selectedcourses" (clrDgSelectedChange)="coursesSelected($event)">
+      <clr-dg-column>Id</clr-dg-column>
+      <clr-dg-column>Name</clr-dg-column>
+      <clr-dg-column>Description</clr-dg-column>
+
+      <clr-dg-row *clrDgItems="let c of courses" [clrDgItem]="c">
+        <clr-dg-cell>{{ c.id }}</clr-dg-cell>
+        <clr-dg-cell>{{ c.name }}</clr-dg-cell>
+        <clr-dg-cell>{{ c.description }}</clr-dg-cell>
+
+        <clr-dg-row-detail *clrIfExpanded>
+          <table class="table table-noborder">
+            <thead>
+              <th class="left">Scenario</th>
+              <th class="left">Description</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of c.scenarios">
+                <td class="left">{{ s.name }}</td>
+                <td class="left">{{ s.description }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </clr-dg-row-detail>
+      </clr-dg-row>
+    </clr-datagrid>
+  </clr-wizard-page>
+
+  <clr-wizard-page [clrWizardPageNextDisabled]="selectedcourses.length == 0 && selectedscenarios.length == 0">
+    <ng-template clrPageTitle>Select Scenario(s)</ng-template>
+    <clr-datagrid [clrDgSelected]="selectedscenarios" (clrDgSelectedChange)="scenariosSelected($event)">
+      <clr-dg-column>Id</clr-dg-column>
+      <clr-dg-column>Name</clr-dg-column>
+      <clr-dg-column>Description</clr-dg-column>
+
+      <clr-dg-row *clrDgItems="let s of scenarios" [clrDgItem]="s">
+        <clr-dg-cell>{{ s.id }}</clr-dg-cell>
+        <clr-dg-cell>{{ s.name }}</clr-dg-cell>
+        <clr-dg-cell>{{ s.description }}</clr-dg-cell>
+      </clr-dg-row>
+    </clr-datagrid>
+
+    <ng-container *ngIf="selectedcourses.length == 0 && selectedscenarios.length == 0">
+      <clr-alert [clrAlertSizeSmall]="true" [clrAlertType]="'warning'" [clrAlertClosable]="false" class="bottom">
+        <clr-alert-item>
+          <span class="alert-text">
+            You must select at least one course or scenario to proceed
+          </span>
+        </clr-alert-item>
+      </clr-alert>
+    </ng-container>
+  </clr-wizard-page>
+
+    <clr-wizard-page>
+        <ng-template clrPageTitle>Confirmation</ng-template>
+
+        <p>Confirm the following details before finalizing</p>
+        <h4>Basic Information</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Option</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Code</td>
+                    <td>{{ ac.code }}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>{{ ac.description }}</td>
+                </tr>
+                <tr>
+                    <td>Expiration</td>
+                    <td *ngIf="ac.expiration">{{ ac.expiration }}</td>
+                    <td *ngIf="!ac.expiration"><em>no expiration</em></td>
+                </tr>
+                <tr>
+                    <td>Max Users</td>
+                    <td>{{ ac.max_users }}</td>
+                </tr>
+                <tr>
+                    <td>Allowed Domains</td>
+                    <td>{{ ac.allowed_domains }}</td>
+                </tr>
+                <tr>
+                  <td>Courses</td>
+                  <td>
+                    <span *ngFor="let c of ac.courses" class="label">{{c}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Scenarios</td>
+                  <td>
+                    <span *ngFor="let s of ac.scenarios" class="label">{{s}}</span>
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </clr-wizard-page>
+</clr-wizard>

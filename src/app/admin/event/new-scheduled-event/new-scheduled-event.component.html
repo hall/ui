@@ -1,0 +1,383 @@
+<clr-wizard #wizard [(clrWizardOpen)]="wzOpen" clrWizardSize="xl" (clrWizardOnFinish)="save()">
+  <clr-wizard-title>New Scheduled Event</clr-wizard-title>
+
+  <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+  <clr-wizard-button [type]="'previous'">Previous</clr-wizard-button>
+  <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+  <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+
+  <clr-wizard-page [clrWizardPageNextDisabled]="!eventDetails.valid" (clrWizardPageOnCommit)="copyEventDetails()">
+    <ng-template clrPageTitle>Event Details</ng-template>
+    <form clrForm [formGroup]="eventDetails">
+      <clr-input-container>
+        <label>Name</label>
+        <input clrInput type="text" placeholder="Event name" name="name" formControlName="name" required />
+        <clr-control-error *clrIfError="'required'">Event name is required</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'">Event name must be longer than 4 characters</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <label>Description</label>
+        <input clrInput type="text" placeholder="Event description" name="description" formControlName="description"
+          required />
+        <clr-control-error *clrIfError="'required'">Event description is required</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'">Event description must be longer than 4 characters
+        </clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <label>Access Code</label>
+        <input clrInput type="text" placeholder="Access code" name="access_code" formControlName="access_code"
+          required />
+        <clr-control-error *clrIfError="'required'">Access code is required</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'">Access code must be longer than 5 characters</clr-control-error>
+        <clr-control-error *clrIfError="'pattern'">Access code must
+          <ul>
+            <li>contain only lowercase alphanumeric characters, '-', or '.'</li>
+            <li>start and end with an alphanumber character</li>
+          </ul>
+        </clr-control-error>
+      </clr-input-container>
+      <clr-toggle-container>
+        <clr-toggle-wrapper>
+          <input type="checkbox" clrToggle name="restricted_bind" formControlName="restricted_bind">
+          <label>Restricted Bind</label>
+        </clr-toggle-wrapper>
+        <clr-control-helper>Restricted bind prevents users from reserving VM resources not associated with this
+          Scheduled Event.</clr-control-helper>
+      </clr-toggle-container>
+    </form>
+  </clr-wizard-page>
+
+  <clr-wizard-page [clrWizardPageNextDisabled]="(se.start_time >= se.end_time) || !se.start_time || !se.end_time">
+    <ng-template clrPageTitle>Event Times</ng-template>
+    <div class="clr-row">
+      <div class="clr-col">
+        Start Time: {{ se.start_time | date:'long' }} <br />
+        <clr-signpost>
+          <button class="btn btn-link" clrSignpostTrigger>Set Start Time</button>
+          <clr-signpost-content *clrIfOpen #startTimeSignpost>
+            <dl-date-time-picker (change)="setStartTime($event)" startView="day" maxView="year" minView="minute"
+              minuteStep="30"></dl-date-time-picker>
+          </clr-signpost-content>
+        </clr-signpost>
+      </div>
+    </div>
+
+    <div class="clr-row">
+      <div class="clr-col">
+        End Time: {{ se.end_time | date:'long' }} <br />
+        <clr-signpost>
+          <button class="btn btn-link" clrSignpostTrigger>Set End Time</button>
+          <clr-signpost-content *clrIfOpen #endTimeSignpost>
+            <dl-date-time-picker (change)="setEndTime($event)" startView="day" maxView="year" minView="minute"
+              minuteStep="30"></dl-date-time-picker>
+          </clr-signpost-content>
+        </clr-signpost>
+      </div>
+    </div>
+
+    <p>
+      <i>
+        All times are in {{ tz }} (browser detected)
+      </i>
+    </p>
+    <ng-container *ngIf="se.start_time >= se.end_time">
+      <clr-alert [clrAlertSizeSmall]="true" [clrAlertType]="'danger'" [clrAlertClosable]="false">
+        <clr-alert-item>
+          <span class="alert-text">
+            Start time must occur before end time!
+          </span>
+        </clr-alert-item>
+      </clr-alert>
+    </ng-container>
+  </clr-wizard-page>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Select Course(s)</ng-template>
+    <i>Expand a row to view scenarios within that course</i>
+    <clr-datagrid [clrDgSelected]="selectedcourses" (clrDgSelectedChange)="coursesSelected($event)">
+      <clr-dg-column>Id</clr-dg-column>
+      <clr-dg-column>Name</clr-dg-column>
+      <clr-dg-column>Description</clr-dg-column>
+
+      <clr-dg-row *clrDgItems="let c of courses" [clrDgItem]="c">
+        <clr-dg-cell>{{ c.id }}</clr-dg-cell>
+        <clr-dg-cell>{{ c.name }}</clr-dg-cell>
+        <clr-dg-cell>{{ c.description }}</clr-dg-cell>
+
+        <clr-dg-row-detail *clrIfExpanded>
+          <table class="table table-noborder">
+            <thead>
+              <th class="left">Scenario</th>
+              <th class="left">Description</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of c.scenarios">
+                <td class="left">{{ s.name }}</td>
+                <td class="left">{{ s.description }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </clr-dg-row-detail>
+      </clr-dg-row>
+    </clr-datagrid>
+  </clr-wizard-page>
+
+  <clr-wizard-page [clrWizardPageNextDisabled]="selectedcourses.length == 0 && selectedscenarios.length == 0">
+    <ng-template clrPageTitle>Select Scenario(s)</ng-template>
+    <clr-datagrid [clrDgSelected]="selectedscenarios" (clrDgSelectedChange)="scenariosSelected($event)">
+      <clr-dg-column>Id</clr-dg-column>
+      <clr-dg-column>Name</clr-dg-column>
+      <clr-dg-column>Description</clr-dg-column>
+
+      <clr-dg-row *clrDgItems="let c of courses" [clrDgItem]="c">
+        <clr-dg-cell>{{ c.id }}</clr-dg-cell>
+        <clr-dg-cell>{{ c.name }}</clr-dg-cell>
+        <clr-dg-cell>{{ c.description }}</clr-dg-cell>
+
+        <clr-dg-row-detail *clrIfExpanded>
+          <table class="table table-noborder">
+            <thead>
+              <th class="left">Scenario</th>
+              <th class="left">Description</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of c.scenarios">
+                <td class="left">{{ s.name }}</td>
+                <td class="left">{{ s.description }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </clr-dg-row-detail>
+
+      </clr-dg-row>
+      <!-- <clr-dg-row *clrDgItems="let s of scenarios" [clrDgItem]="s">
+        <clr-dg-cell>{{ s.id }}</clr-dg-cell>
+        <clr-dg-cell>{{ s.name }}</clr-dg-cell>
+        <clr-dg-cell>{{ s.description }}</clr-dg-cell>
+      </clr-dg-row> -->
+    </clr-datagrid>
+
+    <ng-container *ngIf="selectedcourses.length == 0 && selectedscenarios.length == 0">
+      <clr-alert [clrAlertSizeSmall]="true" [clrAlertType]="'warning'" [clrAlertClosable]="false" class="bottom">
+        <clr-alert-item>
+          <span class="alert-text">
+            You must select at least one course or scenario to proceed
+          </span>
+        </clr-alert-item>
+      </clr-alert>
+    </ng-container>
+  </clr-wizard-page>
+
+  <clr-wizard-page (clrWizardPageOnLoad)="checkEnvironments()"
+    [clrWizardPageNextDisabled]="selectedEnvironments.length == 0">
+    <ng-template clrPageTitle>Select Environment(s)</ng-template>
+    <ng-container *ngIf="checkingEnvironments">
+      <span class="spinner">
+        Please wait...
+      </span>
+    </ng-container>
+    <ng-container *ngIf="!checkingEnvironments">
+      <clr-datagrid [(clrDgSelected)]="selectedEnvironments">
+        <clr-dg-column>
+          <clr-icon shape="building"></clr-icon>&nbsp;Environment
+        </clr-dg-column>
+        <clr-dg-column>
+          <clr-icon shape="resource-pool"></clr-icon>&nbsp;Mode
+        </clr-dg-column>
+        <clr-dg-column>
+          <clr-icon shape="host"></clr-icon>&nbsp;Count
+        </clr-dg-column>
+        <clr-dg-column>
+          <clr-icon shape="cpu"></clr-icon>&nbsp;CPU
+        </clr-dg-column>
+        <clr-dg-column>
+          <clr-icon shape="memory"></clr-icon>&nbsp;Memory
+        </clr-dg-column>
+        <clr-dg-column>
+          <clr-icon shape="hard-drive"></clr-icon>&nbsp;Storage
+        </clr-dg-column>
+
+        <clr-dg-row *clrDgItems="let ea of availableEnvironments" [clrDgItem]="ea">
+          <clr-dg-cell>{{ ea.environment }}</clr-dg-cell>
+          <clr-dg-cell>{{ ea.capacity_mode }}</clr-dg-cell>
+          <clr-dg-cell>
+            <ng-container *ngIf="ea.capacity_mode == 'count'">
+              <ng-container *ngFor="let item of ea.available_count | keyvalue">
+                <span class="label">{{ item.key }} <span class="badge badge-success">{{ item.value }}</span></span>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="ea.capacity_mode == 'raw'"><i>n/a</i></ng-container>
+          </clr-dg-cell>
+          <clr-dg-cell>
+            {{ ea.available_capacity.cpu }} CPU
+          </clr-dg-cell>
+          <clr-dg-cell>
+            {{ ea.available_capacity.memory }} MB
+          </clr-dg-cell>
+          <clr-dg-cell>
+            {{ ea.available_capacity.storage }} GB
+          </clr-dg-cell>
+        </clr-dg-row>
+      </clr-datagrid>
+    </ng-container>
+  </clr-wizard-page>
+
+  <clr-wizard-page (clrWizardPageOnLoad)="setupVMSelection()" (clrWizardPageNext)="copyVMCounts()"
+    [clrWizardPageNextDisabled]="!vmCounts.valid || !simpleModeVmCounts.valid">
+    <ng-template clrPageTitle>Select Virtual Machines</ng-template>
+    <clr-toggle-wrapper>
+      <input type="checkbox" clrToggle [(ngModel)]="simpleMode" name="simpleMode" />
+      <label>Simple Mode</label>
+    </clr-toggle-wrapper>
+    <ng-container *ngIf="simpleMode">
+      <i>In simple mode, define the number of users per environment. Virtual machines are calculated for you.</i>
+      <table class="table table-compact">
+        <thead>
+          <tr>
+            <th class="left">Environment</th>
+            <th class="left">Users</th>
+          </tr>
+        </thead>
+        <tbody [formGroup]="simpleModeVmCounts">
+          <ng-container *ngFor="let fc of simpleModeVmCounts['controls']?.envs['controls']; let it = index">
+            <tr>
+              <td class="left">
+                {{ selectedEnvironments[it]?.environment }}
+              </td>
+              <td class="left">
+                <clr-input-container class="table-input">
+                  <input clrInput type="number" [formControl]="fc">
+                  <clr-control-error *clrIfError="'max'">User count higher than max</clr-control-error>
+                </clr-input-container>
+                (max {{ maxUserCounts[selectedEnvironments[it]?.environment]}})
+              </td>
+            </tr>
+          </ng-container>
+          <tr>
+            <td class="right">
+              <b>Total</b>
+            </td>
+            <td class="left">
+              {{ simpleUserTotal() }} users
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <i>The following environments are incompatible with simple mode: </i>
+      <clr-signpost>
+        <clr-signpost-content *clrIfOpen>
+          <h3>Simple Mode Compatibility</h3>
+          <p>
+            An environment must be able to support the creation of all types of required VMs, as well as
+            have enough capacity for at least one user (and all their associated VMs).
+          </p>
+        </clr-signpost-content>
+      </clr-signpost>
+      <ul>
+        <li *ngFor="let s of invalidSimpleEnvironments">{{s}}</li>
+      </ul>
+    </ng-container>
+    <ng-container *ngIf="!simpleMode">
+      <i>In advanced mode, define the number of virtual machines per environment. Remember to account for the number of
+        expected users,
+        thus <code>number_of_users * number_of_required_vms</code>.
+      </i>
+      <p>
+        The following VMs are required <b>per user</b>:
+        <ng-container *ngFor="let item of requiredVmCounts | keyvalue">
+          <li>{{ item.key }}: {{ item.value }}</li>
+        </ng-container>
+      </p>
+      <table class="table table-compact">
+        <thead>
+          <tr>
+            <th>Environment</th>
+            <th>VM Template</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody [formGroup]="vmCounts">
+          <ng-container *ngFor="let groupName of controls('')" [formGroupName]="groupName">
+            <ng-container *ngFor="let controlName of controls(groupName)">
+              <tr>
+                <td>{{ groupName }}</td>
+                <td>{{ controlName }}</td>
+                <td>
+                  <clr-input-container class="table-input">
+                    <input clrInput type="number" [formControlName]="controlName">
+                    <clr-control-error *clrIfError="'max'">VM count higher than max</clr-control-error>
+                  </clr-input-container>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+    </ng-container>
+  </clr-wizard-page>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Finalize</ng-template>
+    <p>
+      Confirm the following details before finishing:
+    </p>
+    <h4>Basic Information</h4>
+    <table class="table table-compact">
+      <thead>
+        <tr>
+          <th>Option</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Name</td>
+          <td>{{ se.name }}</td>
+        </tr>
+        <tr>
+          <td>Description</td>
+          <td>{{ se.description }}</td>
+        </tr>
+        <tr>
+          <td>Start Time</td>
+          <td>{{ se.start_time | date:'long' }}</td>
+        </tr>
+        <tr>
+          <td>End Time</td>
+          <td>{{ se.end_time | date:'long' }}</td>
+        </tr>
+        <tr>
+          <td>Courses</td>
+          <td>
+            <span *ngFor="let c of se.courses" class="label">{{c}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Scenarios</td>
+          <td>
+            <span *ngFor="let s of se.scenarios" class="label">{{s}}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h4>VM Information</h4>
+    <table class="table table-compact">
+      <thead>
+        <tr>
+          <th>Environment</th>
+          <th>Virtual Machines</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let i of se.required_vms | keyvalue">
+          <td>{{ i.key }}</td>
+          <td>
+            <span class="label" *ngFor="let q of i.value | keyvalue">{{ q.key }} <span
+                class="badge badge-success">{{ q.value }}</span></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </clr-wizard-page>
+</clr-wizard>

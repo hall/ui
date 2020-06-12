@@ -1,0 +1,86 @@
+<div class="main-container">
+  <header class="header header-7" app-header></header>
+  <div class="content-container">
+    <div class="content-area">
+      <clr-alert [clrAlertType]="'danger'" [(clrAlertClosed)]="seDangerClosed" [clrAlertClosable]="false">
+        <clr-alert-item>
+          <span class="alert-text">
+            {{ seDangerAlert }}
+          </span>
+        </clr-alert-item>
+      </clr-alert>
+      <clr-alert [clrAlertType]="'success'" [(clrAlertClosed)]="seSuccessClosed" [clrAlertClosable]="false">
+        <clr-alert-item>
+          <span class="alert-text">
+            {{ seSuccessAlert }}
+          </span>
+        </clr-alert-item>
+      </clr-alert>
+      <h3>Scheduled Events</h3>
+      <div class="clr-row">
+        <div class="clr-col">
+          <button class="btn btn-success" (click)="openNew()">
+            <clr-icon shape="plus"></clr-icon> New
+          </button>
+        </div>
+      </div>
+      <div class="clr-row">
+        <div class="clr-col">
+          <clr-datagrid>
+            <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+            <clr-dg-column [clrDgField]="'start_time'" [clrDgSortOrder]="descSort">Start</clr-dg-column>
+            <clr-dg-column [clrDgField]="'end_time'">End</clr-dg-column>
+            <clr-dg-column [clrDgField]="'courses'">Courses</clr-dg-column>
+            <clr-dg-column [clrDgField]="'scenarios'">Scenarios</clr-dg-column>
+            <clr-dg-column>Status</clr-dg-column>
+
+            <clr-dg-row *clrDgItems="let se of events">
+              <clr-dg-action-overflow>
+                <button class="action-item" (click)="openDelete(se)">Delete</button>
+                <button class="action-item" (click)="openEdit(se)">Edit</button>
+              </clr-dg-action-overflow>
+              <clr-dg-cell>{{ se.name }}</clr-dg-cell>
+              <clr-dg-cell>{{ se.start_time | date:'long' }}</clr-dg-cell>
+              <clr-dg-cell>{{ se.end_time | date:'long' }}</clr-dg-cell>
+              <clr-dg-cell>
+                <span class="label" *ngFor="let c of se.courses">{{ c }}</span>
+              </clr-dg-cell>
+              <clr-dg-cell>
+                <span class="label" *ngFor="let s of se.scenarios">{{ s }}</span>
+              </clr-dg-cell>
+              <clr-dg-cell>
+                <ng-container *ngIf="se.active && se.provisioned && !se.finished && se.ready">
+                  <clr-icon shape="clock"></clr-icon> In Progress
+                </ng-container>
+                <ng-container *ngIf="!se.active">
+                  <clr-icon shape="times"></clr-icon> Inactive
+                </ng-container>
+                <ng-container *ngIf="se.finished">
+                  <clr-icon shape="check"></clr-icon> Finished
+                </ng-container>
+              </clr-dg-cell>
+            </clr-dg-row>
+          </clr-datagrid>
+        </div>
+      </div>
+
+      <new-scheduled-event #wizard (updated)="newupdated()" [event]="editingEvent"></new-scheduled-event>
+
+      <clr-modal #deletemodal [(clrModalOpen)]="deleteopen">
+        <h3 class="modal-title">Confirm Delete</h3>
+        <div class="modal-body">
+          <p>
+            Are you sure you want to delete this scheduled event?
+          </p>
+          <p>
+            Doing so will clear any access codes and VM registrations.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="deleteopen = false">Cancel</button>
+          <button type="button" class="btn btn-danger-outline" (click)="doDelete()">Delete</button>
+        </div>
+      </clr-modal>
+    </div>
+  </div>
+</div>
