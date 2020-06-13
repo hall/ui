@@ -6,7 +6,7 @@ import { switchMap, concatMap, map, first, repeatWhen, delay, retryWhen, catchEr
 import { TerminalComponent } from '../terminal/terminal.component';
 import { ClrTabContent, ClrTab, ClrModal } from '@clr/angular';
 import { ServerResponse } from '../ServerResponse';
-import { Scenario } from '../scenario/Scenario';
+import { Scenario } from '../session/Scenario';
 import { Session } from '../Session';
 import { from, of, throwError, iif } from 'rxjs';
 import { VMClaim } from '../vmclaim/VMClaim';

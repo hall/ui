@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Scenario } from '../scenario/Scenario';
+import { Scenario } from '../session/Scenario';
 import { of } from 'rxjs';
 import { ServerResponse } from '../ServerResponse';
 import { map, tap } from 'rxjs/operators';

@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Scenario } from './Scenario';
-import { Course } from '../course/course';
 import { HttpClient } from '@angular/common/http';
 import { concatMap, delay, switchMap } from 'rxjs/operators';
 import { Session } from '../Session';
@@ -12,11 +11,11 @@ import { VMClaimService } from '../services/vmclaim.service';
 import { VMClaim } from '../vmclaim/VMClaim';
 
 @Component({
-    selector: 'scenario-component',
-    templateUrl: './scenario.component.html'
+    selector: 'session-component',
+    templateUrl: './session.component.html'
 })
 
-export class ScenarioComponent implements OnInit {
+export class SessionComponent implements OnInit {
     @Input()
     public showScenarioModal: boolean;
     @Input()

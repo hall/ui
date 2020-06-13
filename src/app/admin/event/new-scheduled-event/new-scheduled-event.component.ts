@@ -101,8 +101,8 @@ export class NewScheduledEventComponent implements OnInit {
   }
 
   @ViewChild("wizard", { static: true }) wizard: ClrWizard;
-  @ViewChild("startTimeSignpost", { static: true }) startTimeSignpost: ClrSignpostContent;
-  @ViewChild("endTimeSignpost", { static: true }) endTimeSignpost: ClrSignpostContent;
+  @ViewChild("startTimeSignpost") startTimeSignpost: ClrSignpostContent;
+  @ViewChild("endTimeSignpost") endTimeSignpost: ClrSignpostContent;
 
   public scenariosSelected(s: Scenario[]) {
     this.se.scenarios = [];

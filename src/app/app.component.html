@@ -1,16 +1,32 @@
 <div class="main-container">
   <header class="header header-4">
     <div class="branding">
-      <a class="logo-and-title">
+      <a class="logo-and-title" [routerLink]="[this.router.url.startsWith('/admin') ? '/admin' : '/`']">
         <clr-icon shape="logo"></clr-icon>
-        <a href="javascript://" class="nav-link nav-text" [routerLink]="['/app/home']">
-          <span class="title">{{ title }}</span>
-        </a>
+        <span class="title">{{ title }}</span>
       </a>
     </div>
 
+    <div class="header-nav" *ngIf="this.router.url.startsWith('/admin')">
+      <a class="nav-link nav-text" [routerLink]="['/admin/events']" [routerLinkActive]="'active'">Scheduled Events</a>
+      <a class="nav-link nav-text" [routerLink]="['/admin/content']" [routerLinkActive]="'active'">Content Management</a>
+      <a class="nav-link nav-text" [routerLink]="['/admin/users']" [routerLinkActive]="'active'">Users</a>
+      <a class="nav-link nav-text" [routerLink]="['/admin/configuration']" [routerLinkActive]="'active'">Configuration</a>
+    </div>
+
     <div class="header-actions">
-      <a *ngIf="supportEmail" (click)="support()" class="nav-link">
+      <ng-container *ngIf="isAdmin()">
+        <a *ngIf="this.router.url.startsWith('/admin'); else admin_link" [routerLink]="['/']" class="nav-link nav-icon">
+          <clr-icon shape="home"></clr-icon>
+        </a>
+        <ng-template #admin_link>
+          <a [routerLink]="['/admin']" class="nav-link nav-icon">
+            <clr-icon shape="cog"></clr-icon>
+          </a>
+        </ng-template>
+      </ng-container>
+
+      <a *ngIf="supportEmail" (click)="support()" class="nav-link nav-icon">
         <clr-icon shape="help"></clr-icon>
       </a>
       <clr-dropdown clrMenuPosition="bottom-right">

@@ -1,10 +1,8 @@
 import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Scenario } from '../scenario/Scenario';
+import { Scenario } from '../session/Scenario';
 import { ServerResponse } from '../ServerResponse';
 import { environment } from 'src/environments/environment';
-import { Course } from '../course/course';
-import { CourseService } from '../services/course.service';
 
 @Component({
     templateUrl: 'scenariocard.component.html',

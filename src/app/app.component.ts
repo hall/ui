@@ -45,9 +45,10 @@ export class AppComponent implements OnInit {
   public accesscodes: string[] = [];
 
   public email: string = "";
+  public adminConsole: boolean = false;
 
   private Config = this.config.getConfig();
-  public title   = this.Config.title   || "Rancher's Hobby Farm";
+  public title   = this.Config.title || "Rancher's Hobby Farm";
   favIcon: HTMLLinkElement = document.querySelector('#favIcon');
   public logo;
 
@@ -119,6 +120,16 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     var tok = this.helper.decodeToken(this.helper.tokenGetter());
     this.email = tok.email;
+  }
+
+  public isAdmin() {
+    return !this.helper.decodeToken().isAdmin
+  }
+  public toAdminPage() {
+    this.adminConsole = true
+  }
+  public fromAdminPage() {
+    this.adminConsole = false
   }
 
   public logout() {

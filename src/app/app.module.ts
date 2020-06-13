@@ -7,6 +7,7 @@ import { AngularSplitModule } from 'angular-split';
 import { AppComponent } from './app.component';
 import { AppConfigService } from './app-config.service';
 import { AppRoutingModule } from './app-routing.module';
+import { DragulaModule } from 'ng2-dragula';
 import { ArraySortPipe } from './utils/sort.component';
 import { AtobPipe } from './atob.pipe';
 import { AuthGuard } from './auth.guard';
@@ -14,8 +15,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { ClarityModule } from '@clr/angular';
 import { ConfigurationComponent } from './admin/configuration/configuration.component';
-import { CourseComponent } from './course/course.component';
-import { CourseService } from './services/course.service';
+import { CourseComponent } from './admin/course/course.component';
+import { CourseService } from './data/course.service';
 import { CtrComponent } from './ctr/ctr.component';
 import { CtrService } from './services/ctr.service';
 import { DlDateTimeDateModule, DlDateTimePickerModule} from 'angular-bootstrap-datetimepicker';
@@ -35,7 +36,7 @@ import { NewScheduledEventComponent } from './admin/event/new-scheduled-event/ne
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { RootComponent } from './root.component';
 import { ScenarioCard } from './scenariocard/scenariocard.component';
-import { ScenarioComponent } from './scenario/scenario.component';
+import { SessionComponent } from './session/session.component';
 import { ScenarioService } from './services/scenario.service';
 import { ScenariosComponent } from './admin/scenarios/scenarios.component';
 import { SessionService } from './services/session.service';
@@ -49,6 +50,14 @@ import { VMInfoComponent } from './vminfo/vminfo.component';
 import { VMInfoService } from './vminfo/vminfo.service';
 import { VMService } from './services/vm.service';
 import { environment } from 'src/environments/environment';
+import { ScenarioComponent } from './admin/scenario/scenario.component';
+import { KeepaliveValidator } from './admin/validators/keepalive.validator';
+import { DeleteConfirmationComponent } from './admin/delete-confirmation/delete-confirmation.component';
+import { AddScenarioComponent } from './admin/course/add-scenario/add-scenario.component';
+import { NewCourseComponent } from './admin/course/new-course/new-course.component';
+import { ContentComponent } from './admin/content/content.component';
+import { CourseFormComponent } from './admin/course/course-form/course-form.component';
+import { AdminRootComponent } from './admin/root/root.component';
 export function tokenGetter() {
   return localStorage.getItem("hobbyfarm_token");
 }
@@ -75,24 +84,31 @@ export function jwtOptionsFactory() {
 @NgModule({
   declarations: [
     AccessCodesComponent,
+    AddScenarioComponent,
     AdminComponent,
+    AdminRootComponent,
     AppComponent,
     ArraySortPipe,
     AtobPipe,
     ConfigurationComponent,
+    ContentComponent,
     CourseComponent,
+    CourseFormComponent,
     CtrComponent,
+    DeleteConfirmationComponent,
     EditAccessCodeComponent,
     EditEnvironmentComponent,
     EnvironmentsComponent,
     EventComponent,
     HomeComponent,
     LoginComponent,
+    NewCourseComponent,
     NewScheduledEventComponent,
     RootComponent,
     ScenarioCard,
     ScenarioComponent,
     ScenariosComponent,
+    SessionComponent,
     StepComponent,
     TerminalComponent,
     UserComponent,
@@ -111,6 +127,7 @@ export function jwtOptionsFactory() {
     HttpClientModule,
     LMarkdownEditorModule,
     MarkdownModule.forRoot(),
+    DragulaModule.forRoot(),
     ReactiveFormsModule,
     DynamicHTMLModule.forRoot({
       components: [

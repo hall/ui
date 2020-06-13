@@ -42,7 +42,7 @@ export class EditAccessCodeComponent implements OnInit, OnChanges {
   ) { }
 
 
-  @ViewChild("expirationTimeSignpost", { static: true }) expirationTimeSignpost: ClrSignpostContent;
+  @ViewChild("expirationTimeSignpost") expirationTimeSignpost: ClrSignpostContent;
   @ViewChild("wizard_ac", { static: true }) wizard: ClrWizard;
 
   public setExpiration(d: DlDateTimePickerChange<Date>) {
