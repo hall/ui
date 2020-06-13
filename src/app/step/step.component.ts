@@ -91,13 +91,13 @@ export class StepComponent implements OnInit, DoCheck {
         return remaining;
     }
 
-    @ViewChild("split", { static: false }) splitComponent: SplitComponent;
+    @ViewChild("split") splitComponent: SplitComponent;
     @ViewChildren('term') terms: QueryList<TerminalComponent> = new QueryList();
     @ViewChildren('tabcontent') tabContents: QueryList<ClrTabContent> = new QueryList();
     @ViewChildren('tab') tabs: QueryList<ClrTab> = new QueryList();
-    @ViewChild('markdown', { static: false }) markdownTemplate;
+    @ViewChild('markdown') markdownTemplate;
     @ViewChild('pausemodal', { static: true }) pauseModal: ClrModal;
-    @ViewChild('contentdiv', { static: false }) contentDiv: ElementRef;
+    @ViewChild('contentdiv') contentDiv: ElementRef;
 
     constructor(
         public route: ActivatedRoute,
