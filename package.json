@@ -36,7 +36,7 @@
     "ngx-markdown": "^8.2.1",
     "ngx-markdown-editor": "^3.2.1",
     "open-iconic": "^1.1.1",
-    "rxjs": "^6.5.4",
+    "rxjs": "^6.5.5",
     "tslib": "^1.10.0",
     "xterm": "^4.4.0",
     "xterm-addon-attach": "^0.4.0",
