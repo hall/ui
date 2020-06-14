@@ -17,7 +17,7 @@ export class ScheduledeventService {
   ) { }
 
   public list() {
-    return this.http.get(`${environment.server}/scheduledevent`)
+    return this.http.get(`${environment.server}/scheduledevents`)
       .pipe(
         switchMap((s: ServerResponse) => {
           return from(JSON.parse(atob(s.content)))
@@ -72,7 +72,7 @@ export class ScheduledeventService {
          params = params.set("courses", JSON.stringify(se.courses))
       }
 
-    return this.http.put(`${environment.server}/scheduledevent/${se.id}`, params)
+    return this.http.put(`${environment.server}/scheduledevents/${se.id}`, params)
       .pipe(
         switchMap((s: ServerResponse) => {
           return from(JSON.parse(atob(s.message)))
@@ -81,7 +81,7 @@ export class ScheduledeventService {
   }
 
   public delete(se: ScheduledEvent) {
-    return this.http.delete(`${environment.server}/scheduledevent/${se.id}`)
+    return this.http.delete(`${environment.server}/scheduledevents/${se.id}`)
       .pipe(
         switchMap((s: ServerResponse) => {
           return from(JSON.parse(atob(s.message)))
@@ -90,7 +90,7 @@ export class ScheduledeventService {
   }
 
   public get(id: string) {
-    return this.http.get(`${environment.server}/scheduledevent/${id}`)
+    return this.http.get(`${environment.server}/scheduledevents/${id}`)
     .pipe(
       switchMap((s: ServerResponse) => {
         let se = JSON.parse(atob(s.content));

@@ -70,4 +70,8 @@ export class EnvironmentService {
 
     return this.http.put(`${environment.server}/environments/${env.name}`, params);
   }
+
+  public delete(env: string) {
+    return this.http.delete(`${environment.server}/environments/${env}`);
+  }
 }

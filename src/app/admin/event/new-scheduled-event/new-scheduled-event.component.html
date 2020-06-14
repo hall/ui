@@ -54,7 +54,7 @@
         Start Time: {{ se.start_time | date:'long' }} <br />
         <clr-signpost>
           <button class="btn btn-link" clrSignpostTrigger>Set Start Time</button>
-          <clr-signpost-content *clrIfOpen #startTimeSignpost>
+          <clr-signpost-content [clrPosition]="'bottom-right'" *clrIfOpen #startTimeSignpost>
             <dl-date-time-picker (change)="setStartTime($event)" startView="day" maxView="year" minView="minute"
               minuteStep="30"></dl-date-time-picker>
           </clr-signpost-content>
@@ -67,7 +67,7 @@
         End Time: {{ se.end_time | date:'long' }} <br />
         <clr-signpost>
           <button class="btn btn-link" clrSignpostTrigger>Set End Time</button>
-          <clr-signpost-content *clrIfOpen #endTimeSignpost>
+          <clr-signpost-content [clrPosition]="'bottom-right'" *clrIfOpen #endTimeSignpost>
             <dl-date-time-picker (change)="setEndTime($event)" startView="day" maxView="year" minView="minute"
               minuteStep="30"></dl-date-time-picker>
           </clr-signpost-content>
@@ -129,32 +129,11 @@
       <clr-dg-column>Name</clr-dg-column>
       <clr-dg-column>Description</clr-dg-column>
 
-      <clr-dg-row *clrDgItems="let c of courses" [clrDgItem]="c">
-        <clr-dg-cell>{{ c.id }}</clr-dg-cell>
-        <clr-dg-cell>{{ c.name }}</clr-dg-cell>
-        <clr-dg-cell>{{ c.description }}</clr-dg-cell>
-
-        <clr-dg-row-detail *clrIfExpanded>
-          <table class="table table-noborder">
-            <thead>
-              <th class="left">Scenario</th>
-              <th class="left">Description</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let s of c.scenarios">
-                <td class="left">{{ s.name }}</td>
-                <td class="left">{{ s.description }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </clr-dg-row-detail>
-
-      </clr-dg-row>
-      <!-- <clr-dg-row *clrDgItems="let s of scenarios" [clrDgItem]="s">
+      <clr-dg-row *clrDgItems="let s of scenarios" [clrDgItem]="s">
         <clr-dg-cell>{{ s.id }}</clr-dg-cell>
         <clr-dg-cell>{{ s.name }}</clr-dg-cell>
         <clr-dg-cell>{{ s.description }}</clr-dg-cell>
-      </clr-dg-row> -->
+      </clr-dg-row>
     </clr-datagrid>
 
     <ng-container *ngIf="selectedcourses.length == 0 && selectedscenarios.length == 0">

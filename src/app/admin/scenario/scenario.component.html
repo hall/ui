@@ -1,24 +1,3 @@
-<clr-alert [clrAlertType]="'warning'" [(clrAlertClosed)]="!scenarioTainted" [clrAlertClosable]="false">
-  <clr-alert-item>
-    <span class="alert-text">
-      Scenario has been modified. Save your changes.
-    </span>
-  </clr-alert-item>
-</clr-alert>
-<clr-alert [clrAlertType]="'danger'" [(clrAlertClosed)]="scenarioDangerClosed" [clrAlertClosable]="false">
-  <clr-alert-item>
-    <span class="alert-text">
-      {{ scenarioDangerAlert }}
-    </span>
-  </clr-alert-item>
-</clr-alert>
-<clr-alert [clrAlertType]="'success'" [(clrAlertClosed)]="scenarioSuccessClosed" [clrAlertClosable]="false">
-  <clr-alert-item>
-    <span class="alert-text">
-      {{ scenarioSuccessAlert }}
-    </span>
-  </clr-alert-item>
-</clr-alert>
 <h3>Scenarios</h3>
 <div class="clr-row">
   <div class="clr-col">
@@ -348,3 +327,24 @@
     <button class="btn btn-success" (click)="addNewScenario()" [disabled]="!scenarioDetails.valid">Save</button>
   </div>
 </clr-modal>
+<clr-alert [clrAlertType]="'warning'" [(clrAlertClosed)]="!scenarioTainted" [clrAlertClosable]="false">
+  <clr-alert-item>
+    <span class="alert-text">
+      Scenario has been modified. Save your changes.
+    </span>
+  </clr-alert-item>
+</clr-alert>
+<clr-alert [clrAlertType]="'danger'" [(clrAlertClosed)]="scenarioDangerClosed" [clrAlertClosable]="false">
+  <clr-alert-item>
+    <span class="alert-text">
+      {{ scenarioDangerAlert }}
+    </span>
+  </clr-alert-item>
+</clr-alert>
+<clr-alert [clrAlertType]="'success'" [(clrAlertClosed)]="scenarioSuccessClosed" [clrAlertClosable]="false">
+  <clr-alert-item>
+    <span class="alert-text">
+      {{ scenarioSuccessAlert }}
+    </span>
+  </clr-alert-item>
+</clr-alert>

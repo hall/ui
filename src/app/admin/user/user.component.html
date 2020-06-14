@@ -79,20 +79,6 @@
   <clr-modal #editaccesscodes [(clrModalOpen)]="accessCodesOpen">
     <h3 class="modal-title">Edit Access Codes</h3>
     <div class="modal-body">
-      <clr-alert [clrAlertType]="'danger'" [(clrAlertClosed)]="accessCodeDangerClosed" [clrAlertClosable]="false">
-        <clr-alert-item>
-          <span class="alert-text">
-            {{ accessCodeDangerAlert }}
-          </span>
-        </clr-alert-item>
-      </clr-alert>
-      <clr-alert [clrAlertType]="'success'" [(clrAlertClosed)]="accessCodeSuccessClosed" [clrAlertClosable]="false">
-        <clr-alert-item>
-          <span class="alert-text">
-            {{ accessCodeSuccessAlert }}
-          </span>
-        </clr-alert-item>
-      </clr-alert>
       <button class="btn btn-success-outline btn-sm" (click)="newAccessCode = true">
         <clr-icon shape="plus"></clr-icon> Add Access Code
       </button>
@@ -123,6 +109,20 @@
           <clr-dg-cell>{{ a }}</clr-dg-cell>
         </clr-dg-row>
       </clr-datagrid>
+      <clr-alert [clrAlertType]="'danger'" [(clrAlertClosed)]="accessCodeDangerClosed" [clrAlertClosable]="false">
+        <clr-alert-item>
+          <span class="alert-text">
+            {{ accessCodeDangerAlert }}
+          </span>
+        </clr-alert-item>
+      </clr-alert>
+      <clr-alert [clrAlertType]="'success'" [(clrAlertClosed)]="accessCodeSuccessClosed" [clrAlertClosable]="false">
+        <clr-alert-item>
+          <span class="alert-text">
+            {{ accessCodeSuccessAlert }}
+          </span>
+        </clr-alert-item>
+      </clr-alert>
     </div>
   </clr-modal>
 </div>

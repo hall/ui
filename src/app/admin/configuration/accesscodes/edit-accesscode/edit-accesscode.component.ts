@@ -110,10 +110,10 @@ export class EditAccessCodeComponent implements OnInit, OnChanges {
   ngOnInit() {
     this._build();
 
-    this.courseService.list().subscribe(
+    this.courseService.list("admin").subscribe(
       (c: Course[]) => this.courses = c
     )
-    this.scenarioService.list().subscribe(
+    this.scenarioService.list("admin").subscribe(
       (s: Scenario[]) => this.scenarios = s
     )
   }

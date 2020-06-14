@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
 
   public accessCodeDangerAlert: string = "";
   public accessCodeSuccessAlert: string = "";
+  public dropdownOpen = false;
 
   public newAccessCode: boolean = false;
   public fetchingAccessCodes: boolean = false;
@@ -231,6 +232,10 @@ export class AppComponent implements OnInit {
   public doLogout() {
     localStorage.removeItem("hobbyfarm_token");
     this.router.navigateByUrl("/login");
+  }
+
+  public close() {
+    this.dropdownOpen = false;
   }
 
 }

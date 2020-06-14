@@ -35,7 +35,7 @@ export class ScenarioService {
   ) { }
 
   public list(param?) {
-    return this.http.get(`${environment.server}/scenarios${param ? "?" + param : ""}`)
+    return this.http.get(`${environment.server}/scenarios${param ? "?role=" + param : ""}`)
     .pipe(
       map((s: ServerResponse) => {
         let obj: Scenario[] = JSON.parse(atob(s.content)); // this doesn't encode a map though
@@ -58,7 +58,7 @@ export class ScenarioService {
   }
 
   public get(id: string, param?) {
-    return this.http.get(`${environment.server}/scenarios/${id}${param ? "?" + param : ""}`)
+    return this.http.get(`${environment.server}/scenarios/${id}${param ? "?role=" + param : ""}`)
     .pipe(
       map((s: ServerResponse) => {
         return JSON.parse(atob(s.content))

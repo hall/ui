@@ -30,6 +30,10 @@ export class EnvironmentsComponent implements OnInit {
     )
   }
 
+  public delete(env) {
+    this.environmentService.delete(env)
+  }
+
   public openNew() {
     this.updateEnv = undefined;
     this.editWizard.open();

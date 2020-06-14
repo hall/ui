@@ -8,7 +8,7 @@ import { deepCopy } from '../deepcopy';
 import { VmtemplateService } from '../../data/vmtemplate.service';
 import { VMTemplate } from '../../data/vmtemplate';
 import { VirtualMachine } from '../../data/virtualmachine';
-import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { KeepaliveValidator } from '../validators/keepalive.validator';
 
 @Component({
@@ -214,7 +214,7 @@ export class ScenarioComponent implements OnInit {
         }
       )
 
-    this.scenarioService.list()
+    this.scenarioService.list("admin")
       .subscribe(
         (s: Scenario[]) => this.scenarios = s
       )
@@ -331,7 +331,7 @@ export class ScenarioComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.scenarioService.list()
+    this.scenarioService.list("admin")
       .subscribe(
         (s: Scenario[]) => this.scenarios = s
       )

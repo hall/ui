@@ -15,31 +15,25 @@
     </div>
 
     <div class="header-actions">
-      <ng-container *ngIf="isAdmin()">
-        <a *ngIf="this.router.url.startsWith('/admin'); else admin_link" [routerLink]="['/']" class="nav-link nav-icon">
-          <clr-icon shape="home"></clr-icon>
-        </a>
-        <ng-template #admin_link>
-          <a [routerLink]="['/admin']" class="nav-link nav-icon">
-            <clr-icon shape="cog"></clr-icon>
-          </a>
-        </ng-template>
-      </ng-container>
-
-      <a *ngIf="supportEmail" (click)="support()" class="nav-link nav-icon">
+      <a *ngIf="supportEmail && !this.router.url.startsWith('/admin')" (click)="support()" class="nav-link nav-icon">
         <clr-icon shape="help"></clr-icon>
       </a>
+
       <clr-dropdown>
-        <button class="nav-text" clrDropdownToggle>
+        <button class="nav-text" clrDropdownTrigger aria-label="toggle user options menu">
           {{email}}
           <clr-icon shape="caret down"></clr-icon>
         </button>
-        <clr-dropdown-menu [style.inset]="''" [clrPosition]="'bottom-right'">
+        <ng-template [(clrIfOpen)]="dropdownOpen">
+        <clr-dropdown-menu [clrPosition]="'bottom-right'">
+          <a *ngIf="router.url.startsWith('/admin')" routerLink="/" (click)="close()" clrDropdownItem>User Interface</a>
+          <a *ngIf="isAdmin() && !router.url.startsWith('/admin')" routerLink="/admin" (click)="close()" clrDropdownItem>Admin Interface</a>
           <a (click)="openAccessCodes()" clrDropdownItem>Manage Access Codes</a>
           <a (click)="changePassword()" clrDropdownItem>Change Password</a>
           <a (click)="about()" clrDropdownItem>About</a>
           <a (click)="logout()" clrDropdownItem>Logout</a>
         </clr-dropdown-menu>
+        </ng-template>
       </clr-dropdown>
     </div>
 

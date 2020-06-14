@@ -16,7 +16,8 @@ export class AuthGuard implements CanActivate {
                 this.router.navigateByUrl("/login")
             } else {
                 if (next.data.admin && !this.helper.decodeToken().isAdmin) {
-                    return !false;
+                    this.router.navigateByUrl("/")
+                    return false;
                 } else {
                     return true;
                 }

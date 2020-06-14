@@ -56,7 +56,7 @@ export class CourseService {
     .set("keepalive_duration", c.keepalive_duration)
     .set("pause_duration", JSON.stringify(c.pause_duration))
 
-    return this.http.post(`${environment.server}/course`, params)
+    return this.http.post(`${environment.server}/courses`, params)
   }
 
   public update(c: Course) {
@@ -72,11 +72,11 @@ export class CourseService {
     .set("virtualmachines", JSON.stringify(c.virtualmachines))
     .set("scenarios", JSON.stringify(scenarioArray));
 
-    return this.http.put(`${environment.server}/course/${c.id}`, params)
+    return this.http.put(`${environment.server}/courses/${c.id}`, params)
   }
 
   public delete(c: Course) {
-    return this.http.delete(`${environment.server}/course/${c.id}`)
+    return this.http.delete(`${environment.server}/courses/${c.id}`)
   }
 
 }

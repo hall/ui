@@ -28,8 +28,8 @@ export class NewScheduledEventComponent implements OnInit {
 
   public wzOpen: boolean = false;
   public se: ScheduledEvent = new ScheduledEvent();
-  public scenarios: Scenario[] = [];
-  public courses: Course[] = [];
+  public scenarios: Scenario[];
+  public courses: Course[];
 
   public saving: boolean = false;
 
@@ -239,7 +239,7 @@ export class NewScheduledEventComponent implements OnInit {
   public calculateRequiredVms() {
     this.requiredVmCounts = {}; // this will be map[string]int, where string is vm template and int is required count
     this.selectedscenarios.forEach((ss, i) => { // ss is selectedscenario, i is index
-      ss.virtualmachines.forEach((vmset, j) => { // vmset is virtualmachineset, j is index
+      ss.virtualmachines?.forEach((vmset, j) => { // vmset is virtualmachineset, j is index
         Object.values(vmset).forEach((template: string, k) => { // tmeplate is vmtemplate name, k is index
           if (this.requiredVmCounts[template]) {
             this.requiredVmCounts[template]++;
@@ -250,7 +250,7 @@ export class NewScheduledEventComponent implements OnInit {
       })
     })
     this.selectedcourses.forEach((sc, i) => { // sc is selected course, i is index
-      sc.virtualmachines.forEach((vmset, j) => { // vmset is virtualmachineset, j is index
+      sc.virtualmachines?.forEach((vmset, j) => { // vmset is virtualmachineset, j is index
         Object.values(vmset).forEach((template: string, k) => { // template is vmtemplate name, k is index
           if (this.requiredVmCounts[template]) {
             this.requiredVmCounts[template]++;
@@ -283,7 +283,7 @@ export class NewScheduledEventComponent implements OnInit {
       });
 
       // auto-select the environments
-      this.se.scenarios.forEach(
+      this.se.scenarios?.forEach(
         (sid: string) => {
           // find matching if there is one, and push into selectedscenarios
           this.scenarios.map(
@@ -295,7 +295,7 @@ export class NewScheduledEventComponent implements OnInit {
           )
         }
       )
-      this.se.courses.forEach(
+      this.se.courses?.forEach(
         (sid: string) => {
           // find matching if there is one, and push into selectedcourses
           this.courses.map(
@@ -330,11 +330,11 @@ export class NewScheduledEventComponent implements OnInit {
       this.se.required_vms = {};
     }
 
-    this.ss.list()
+    this.ss.list("admin")
       .subscribe(
         (s: Scenario[]) => { this.scenarios = s },
       );
-    this.cs.list()
+    this.cs.list("admin")
       .subscribe(
         (c: Course[]) => { this.courses = c },
       );
@@ -361,7 +361,7 @@ export class NewScheduledEventComponent implements OnInit {
     // add all chosen templates to the list
     this.selectedscenarios.forEach(
       (s: Scenario) => {
-        s.virtualmachines.forEach(
+        s.virtualmachines?.forEach(
           (se: Map<string, string>) => {
             Object.entries(se).forEach(
               (ee: string[]) => templates.set(ee[1], true)
@@ -372,7 +372,7 @@ export class NewScheduledEventComponent implements OnInit {
     )
     this.selectedcourses.forEach(
       (c: Course) => {
-        c.virtualmachines.forEach(
+        c.virtualmachines?.forEach(
           (se: Map<string, string>) => {
             Object.entries(se).forEach(
               (ee: string[]) => templates.set(ee[1], true)
@@ -390,7 +390,7 @@ export class NewScheduledEventComponent implements OnInit {
         }),
         filter((e: Environment) => {
           // first add to keyed environment, regardless of if we use it or not
-          this.keyedEnvironments.set(e.display_name, e);
+          this.keyedEnvironments.set(e.name, e);
           let pass = false;
           Object.keys(e.template_mapping).forEach(
             (s: string) => {
@@ -404,7 +404,7 @@ export class NewScheduledEventComponent implements OnInit {
           return pass;
         }),
         concatMap((e: Environment) => {
-          return this.es.available(e.display_name, this.se.start_time, this.se.end_time);
+          return this.es.available(e.name, this.se.start_time, this.se.end_time);
         }),
         map(
           (ea: EnvironmentAvailability) => {

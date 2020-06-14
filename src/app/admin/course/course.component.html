@@ -1,10 +1,3 @@
-<clr-alert [clrAlertType]="alertType" [clrAlertClosable]="false" [(clrAlertClosed)]="!isAlert">
-    <clr-alert-item>
-        <span class="alert-text">
-            {{ alertText }}
-        </span>
-    </clr-alert-item>
-</clr-alert>
 <h3>Courses</h3>
 <div class="clr-row">
     <div class="clr-col">
@@ -84,3 +77,10 @@
 <new-course #newCourse (added)="refresh()"></new-course>
 <add-scenario #addScenario [scenarios]="scenarios" (selected)="addSelected($event)"></add-scenario>
 <delete-confirmation #deleteConfirmation (delete)="deleteSelected()"></delete-confirmation>
+<clr-alert [clrAlertType]="alertType" [clrAlertClosable]="false" [(clrAlertClosed)]="!isAlert">
+    <clr-alert-item>
+        <span class="alert-text">
+            {{ alertText }}
+        </span>
+    </clr-alert-item>
+</clr-alert>
