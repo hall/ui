@@ -221,7 +221,7 @@ export class StepComponent implements OnInit, DoCheck {
                 first(),
                 switchMap((p: ParamMap) => {
                     this.params = p;
-                    this.stepnumber = +p.get("step");
+                    this.stepnumber = + p.get("step");
                     return this.ssService.get(p.get("session"));
                 }),
                 switchMap((s: Session) => {
@@ -363,7 +363,7 @@ export class StepComponent implements OnInit, DoCheck {
     }
 
     actuallyFinish() {
-      this.http.put(`${environment.server}/session/${this.route.snapshot.paramMap.get("session")}/finished`, {})
+      this.http.put(`${environment.server}/sessions/${this.route.snapshot.paramMap.get("session")}/finished`, {})
           .subscribe(
               (s: ServerResponse) => {
                   this.router.navigateByUrl("/");

@@ -68,10 +68,13 @@ export class ScenarioService {
         s.name = atob(s.name);
         s.description = atob(s.description);
         if (s.steps) {
+          let count = 0
           s.steps.forEach((st: Step) => {
+            count++
             st.content = atob(st.content);
             st.title = atob(st.title);
           });
+          s.stepcount = count
         }
         return s;
       })

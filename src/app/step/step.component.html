@@ -3,7 +3,7 @@
 
     <as-split-area [size]="sidebarSize" id="sidebar">
         <div class="card-header">
-            <h3 id="scenario-name">{{ scenario.name | atob }}</h3>
+            <h3 id="scenario-name">{{ scenario.name }}</h3>
 
             <button class="btn btn-next"
                 [class.btn-success-outline]="(this.scenario.stepcount-1) != this.stepnumber"
@@ -24,7 +24,7 @@
         </div>
 
         <div class="card-block" #contentdiv>
-            <h4 class="card-title">{{ step.title | atob }}</h4>
+            <h4 class="card-title">{{ step.title }}</h4>
             <div class="card-text">
                 <dynamic-html [content]="stepcontent | markdown"></dynamic-html>
             </div>
@@ -32,7 +32,6 @@
 
         <div class="card-footer">
             <div class="progress">
-                <!-- <div class="progress-meter" data-value="getProgress()"></div> -->
                 <progress [value]="getProgress() || 0" max="100"></progress>
             </div>
             <div id="step-navigator">

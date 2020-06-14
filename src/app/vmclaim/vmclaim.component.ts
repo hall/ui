@@ -15,7 +15,7 @@ import { VMClaimVM } from '../VMClaimVM';
 
 export class VMClaimComponent implements OnChanges {
     @Input()
-    vmclaim: VMClaim = new VMClaim();
+    vmclaim: VMClaim;
 
     @Output()
     ready: EventEmitter<string> = new EventEmitter(false);
