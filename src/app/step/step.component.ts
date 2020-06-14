@@ -6,7 +6,7 @@ import { switchMap, concatMap, map, first, repeatWhen, delay, retryWhen, catchEr
 import { TerminalComponent } from '../terminal/terminal.component';
 import { ClrTabContent, ClrTab, ClrModal } from '@clr/angular';
 import { ServerResponse } from '../ServerResponse';
-import { Scenario } from '../session/Scenario';
+import { Scenario } from '../data/scenario';
 import { Session } from '../Session';
 import { from, of, throwError, iif } from 'rxjs';
 import { VMClaim } from '../vmclaim/VMClaim';
@@ -17,7 +17,7 @@ import { CtrService } from '../services/ctr.service';
 import { CodeExec } from '../ctr/CodeExec';
 import { VMInfoService } from '../vminfo/vminfo.service';
 import { SessionService } from '../services/session.service';
-import { ScenarioService } from '../services/scenario.service';
+import { ScenarioService } from '../data/scenario.service';
 import { StepService } from '../services/step.service';
 import { VMClaimService } from '../services/vmclaim.service';
 import { VMService } from '../services/vm.service';
@@ -330,7 +330,7 @@ export class StepComponent implements OnInit, DoCheck {
 
     goNext() {
         this.stepnumber += 1;
-        this.router.navigateByUrl("/app/session/" + this.session.id + "/steps/" + (this.stepnumber));
+        this.router.navigateByUrl(`/session/${this.session.id}/steps/${this.stepnumber}`);
         this._loadStep();
         this.contentDiv.nativeElement.scrollTop = 0;
     }
@@ -353,7 +353,7 @@ export class StepComponent implements OnInit, DoCheck {
 
     goPrevious() {
         this.stepnumber -= 1;
-        this.router.navigateByUrl("/app/session/" + this.session.id + "/steps/" + (this.stepnumber));
+        this.router.navigateByUrl(`/session/${this.session.id}/steps/${this.stepnumber}`);
         this._loadStep();
         this.contentDiv.nativeElement.scrollTop = 0;
     }
@@ -363,10 +363,10 @@ export class StepComponent implements OnInit, DoCheck {
     }
 
     actuallyFinish() {
-      this.http.put(environment.server + "/session/" + this.route.snapshot.paramMap.get("session") + "/finished", {})
+      this.http.put(`${environment.server}/session/${this.route.snapshot.paramMap.get("session")}/finished`, {})
           .subscribe(
               (s: ServerResponse) => {
-                  this.router.navigateByUrl("/app/home");
+                  this.router.navigateByUrl("/");
               }
           )
 

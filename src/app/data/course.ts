@@ -8,5 +8,4 @@ export class Course {
     scenarios: Scenario[];
     keepalive_duration: string;
     pause_duration: number;
-    pauseable: boolean;
 }

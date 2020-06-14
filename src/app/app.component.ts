@@ -123,7 +123,7 @@ export class AppComponent implements OnInit {
   }
 
   public isAdmin() {
-    return !this.helper.decodeToken().isAdmin
+    return this.helper.decodeToken().isAdmin
   }
   public toAdminPage() {
     this.adminConsole = true

@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Scenario } from '../session/Scenario';
+import { Scenario } from '../data/scenario';
 import { ServerResponse } from '../ServerResponse';
 import { environment } from 'src/environments/environment';
 
@@ -10,34 +10,20 @@ import { environment } from 'src/environments/environment';
 })
 export class ScenarioCard implements OnInit {
     @Input()
-    public scenarioid: string = "";
+    public scenario: Scenario = new Scenario();
     @Input()
     public courseid: string = "";
     @Output()
     scenarioModal = new EventEmitter();
 
-    public scenario: Scenario = new Scenario();
-    public error: string;
 
-    constructor(
-        public http: HttpClient
-    ) {
+    constructor() {
     }
 
     ngOnInit() {
-        this.error = "";
-        this.http.get(environment.server + "/scenario/" + this.scenarioid)
-        .subscribe(
-            (s: ServerResponse) => {
-                this.scenario = JSON.parse(atob(s.content));
-            },
-            (e: HttpErrorResponse) => {
-                this.error = e.error;
-            }
-        )
     }
 
     navScenario() {
-       this.scenarioModal.emit({s:this.scenarioid,c:this.courseid});
+       this.scenarioModal.emit({s:this.scenario.id,c:this.courseid});
     }
 }

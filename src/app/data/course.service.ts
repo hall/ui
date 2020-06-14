@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpParameterCodec, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ServerResponse } from './serverresponse';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Course } from './course';
 import { Scenario } from './scenario';
-import { ScenarioService } from './scenario.service';
-import { from, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +12,11 @@ import { from, of } from 'rxjs';
 export class CourseService {
 
   constructor(
-    public http: HttpClient,
-    public scenarioService: ScenarioService
+    public http: HttpClient
   ) { }
 
-  public list() {
-    return this.http.get(environment.server + "/a/course/list")
+  public list(param?) {
+    return this.http.get(`${environment.server}/courses${param ? "?role=" + param : ""}`)
     .pipe(
       map((s: ServerResponse) => {
         let obj: Course[] = JSON.parse(atob(s.content)); // this doesn't encode a map though
@@ -33,7 +30,8 @@ export class CourseService {
           }
           if (c.scenarios) {
             c.scenarios.forEach((s) => {
-              this.scenarioService.get(<any>s).subscribe((sc: Scenario) => { c.scenarios.push(sc) })
+              s.name = atob(s.name)
+              s.description = atob(s.description)
             });
             c.scenarios = c.scenarios.filter(x => typeof x != 'string');
             c.scenarios.sort(function (a, b) { return (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0); });
@@ -57,9 +55,8 @@ export class CourseService {
     .set("description", btoa(c.description))
     .set("keepalive_duration", c.keepalive_duration)
     .set("pause_duration", JSON.stringify(c.pause_duration))
-    .set("pauseable", JSON.stringify(c.pauseable))
 
-    return this.http.post(environment.server + "/a/course/new", params)
+    return this.http.post(`${environment.server}/course`, params)
   }
 
   public update(c: Course) {
@@ -72,15 +69,14 @@ export class CourseService {
     .set("description", btoa(c.description))
     .set("keepalive_duration", c.keepalive_duration)
     .set("pause_duration", JSON.stringify(c.pause_duration))
-    .set("pauseable", JSON.stringify(c.pauseable))
     .set("virtualmachines", JSON.stringify(c.virtualmachines))
     .set("scenarios", JSON.stringify(scenarioArray));
 
-    return this.http.put(environment.server + "/a/course/" + c.id, params)
+    return this.http.put(`${environment.server}/course/${c.id}`, params)
   }
 
   public delete(c: Course) {
-    return this.http.delete(environment.server + "/a/course/" + c.id)
+    return this.http.delete(`${environment.server}/course/${c.id}`)
   }
 
 }

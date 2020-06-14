@@ -2,12 +2,13 @@ import '@clr/icons';
 import '@clr/icons/shapes/all-shapes';
 import { AccessCodesComponent } from './admin/configuration/accesscodes/accesscodes.component';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { AddScenarioComponent } from './admin/course/add-scenario/add-scenario.component';
 import { AdminComponent } from './admin/admin/admin.component';
+import { AdminRootComponent } from './admin/root/root.component';
 import { AngularSplitModule } from 'angular-split';
 import { AppComponent } from './app.component';
 import { AppConfigService } from './app-config.service';
 import { AppRoutingModule } from './app-routing.module';
-import { DragulaModule } from 'ng2-dragula';
 import { ArraySortPipe } from './utils/sort.component';
 import { AtobPipe } from './atob.pipe';
 import { AuthGuard } from './auth.guard';
@@ -15,11 +16,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { ClarityModule } from '@clr/angular';
 import { ConfigurationComponent } from './admin/configuration/configuration.component';
+import { ContentComponent } from './admin/content/content.component';
 import { CourseComponent } from './admin/course/course.component';
+import { CourseFormComponent } from './admin/course/course-form/course-form.component';
 import { CourseService } from './data/course.service';
 import { CtrComponent } from './ctr/ctr.component';
 import { CtrService } from './services/ctr.service';
+import { DeleteConfirmationComponent } from './admin/delete-confirmation/delete-confirmation.component';
 import { DlDateTimeDateModule, DlDateTimePickerModule} from 'angular-bootstrap-datetimepicker';
+import { DragulaModule } from 'ng2-dragula';
 import { DynamicHTMLModule } from './dynamic-html';
 import { EditAccessCodeComponent } from './admin/configuration/accesscodes/edit-accesscode/edit-accesscode.component';
 import { EditEnvironmentComponent } from './admin/configuration/environments/edit-environment/edit-environment.component';
@@ -29,35 +34,30 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { KeepaliveValidator } from './admin/validators/keepalive.validator';
 import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import { LoginComponent } from './login/login.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { NewCourseComponent } from './admin/course/new-course/new-course.component';
 import { NewScheduledEventComponent } from './admin/event/new-scheduled-event/new-scheduled-event.component';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { RootComponent } from './root.component';
 import { ScenarioCard } from './scenariocard/scenariocard.component';
+import { ScenarioComponent } from './admin/scenario/scenario.component';
+import { ScenarioService } from './data/scenario.service';
 import { SessionComponent } from './session/session.component';
-import { ScenarioService } from './services/scenario.service';
-import { ScenariosComponent } from './admin/scenarios/scenarios.component';
 import { SessionService } from './services/session.service';
 import { StepComponent } from './step/step.component';
 import { StepService } from './services/step.service';
 import { TerminalComponent } from './terminal/terminal.component';
 import { UserComponent } from './admin/user/user.component';
+import { Utils } from './data/utils.service';
 import { VMClaimComponent } from './vmclaim/vmclaim.component';
 import { VMClaimService } from './services/vmclaim.service';
 import { VMInfoComponent } from './vminfo/vminfo.component';
 import { VMInfoService } from './vminfo/vminfo.service';
 import { VMService } from './services/vm.service';
 import { environment } from 'src/environments/environment';
-import { ScenarioComponent } from './admin/scenario/scenario.component';
-import { KeepaliveValidator } from './admin/validators/keepalive.validator';
-import { DeleteConfirmationComponent } from './admin/delete-confirmation/delete-confirmation.component';
-import { AddScenarioComponent } from './admin/course/add-scenario/add-scenario.component';
-import { NewCourseComponent } from './admin/course/new-course/new-course.component';
-import { ContentComponent } from './admin/content/content.component';
-import { CourseFormComponent } from './admin/course/course-form/course-form.component';
-import { AdminRootComponent } from './admin/root/root.component';
 export function tokenGetter() {
   return localStorage.getItem("hobbyfarm_token");
 }
@@ -107,7 +107,6 @@ export function jwtOptionsFactory() {
     RootComponent,
     ScenarioCard,
     ScenarioComponent,
-    ScenariosComponent,
     SessionComponent,
     StepComponent,
     TerminalComponent,
@@ -152,6 +151,7 @@ export function jwtOptionsFactory() {
     ScenarioService,
     SessionService,
     StepService,
+    Utils,
     VMClaimService,
     VMInfoService,
     VMService,

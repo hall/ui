@@ -16,7 +16,7 @@ export class VMClaimService {
     }
 
     public get(id: string): Observable<VMClaim> {
-        return this.http.get(environment.server + '/vmclaim/' + id)
+        return this.http.get(`${environment.server}/vmclaim/${id}`)
             .pipe(
                 map((s: ServerResponse) => {
                     return JSON.parse(atob(s.content));

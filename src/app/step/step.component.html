@@ -11,7 +11,7 @@
                 <clr-icon shape="check"></clr-icon>
                 Finish
             </button>
-            <ng-container *ngIf="scenario.pauseable">
+            <ng-container *ngIf="scenario.pause_duration">
                 <button class="btn" (click)="pause()">
                     <clr-icon shape="pause" class="is-solid"></clr-icon> Pause
                 </button>

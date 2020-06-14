@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Scenario } from './Scenario';
+import { Scenario } from '../data/scenario';
 import { HttpClient } from '@angular/common/http';
 import { concatMap, delay, switchMap } from 'rxjs/operators';
 import { Session } from '../Session';
-import { from, of, throwError } from 'rxjs';
-import { ScenarioService } from '../services/scenario.service';
+import { from } from 'rxjs';
+import { ScenarioService } from '../data/scenario.service';
 import { SessionService } from '../services/session.service';
 import { VMClaimService } from '../services/vmclaim.service';
 import { VMClaim } from '../vmclaim/VMClaim';
@@ -62,7 +62,7 @@ export class SessionComponent implements OnInit {
     }
 
     goSession() {
-        this.router.navigateByUrl("/app/session/" + this.session.id + "/steps/0");
+        this.router.navigateByUrl(`/session/${this.session.id}/steps/0`);
     }
 
     close() {

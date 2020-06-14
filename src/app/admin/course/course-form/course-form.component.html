@@ -36,14 +36,7 @@
           periods: 1m to 48h inclusive.</span>
       </div>
     </div>
-    <clr-toggle-container>
-      <clr-toggle-wrapper>
-        <input type="checkbox" clrToggle name="pauseable" formControlName="pauseable">
-        <label>Pauseable</label>
-      </clr-toggle-wrapper>
-      <clr-control-helper>Whether the user can pause the course.</clr-control-helper>
-    </clr-toggle-container>
-    <clr-input-container *ngIf="courseDetails.value.pauseable">
+    <clr-input-container>
       <label>Pause Duration</label>
       <input clrInput type="number" name="pause_duration" placeholder="Duration in hours"
         formControlName="pause_duration" required />

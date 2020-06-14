@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Session } from '../Session';
 import { of } from 'rxjs';
-import { tap, map, repeatWhen, delay } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { ServerResponse } from '../ServerResponse';
 import { environment } from 'src/environments/environment';
 
@@ -21,7 +21,7 @@ export class SessionService {
             if (courseId) {
                 params = params.set("course", courseId);
             }
-        return this.http.post(environment.server + "/session/new", params)
+        return this.http.post(`${environment.server}/sessions`, params)
             .pipe(
                 map((s: ServerResponse) => {
                     return JSON.parse(atob(s.content));
@@ -33,15 +33,15 @@ export class SessionService {
     }
 
     public pause(sessionId: string) {
-        return this.http.put(environment.server + '/session/' + sessionId + '/pause', {});
+        return this.http.put(`${environment.server}/sessions/${sessionId}/pause`, {});
     }
 
     public resume(sessionId: string) {
-        return this.http.put(environment.server + '/session/' + sessionId + '/resume', {});
+        return this.http.put(`${environment.server}/sessions/${sessionId}/resume`, {});
     }
 
     public keepalive(sessionId: string) {
-        return this.http.put(environment.server + '/session/' + sessionId + '/keepalive', {})
+        return this.http.put(`${environment.server}/sessions/${sessionId}/keepalive`, {})
     }
 
     public get(id: string) {
@@ -49,7 +49,7 @@ export class SessionService {
             return of(this.cachedScenarioSessions.get(id));
             // HOW DO WE MAKE THIS EXPIRE?
         } else {
-            return this.http.get(environment.server + "/session/" + id)
+            return this.http.get(`${environment.server}/sessions/${id}`)
                 .pipe(
                     // do a "map and tap"
                     map((s: ServerResponse) => {

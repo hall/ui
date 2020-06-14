@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { ServerResponse } from './serverresponse';
-import { formatDate } from '@angular/common';
 import { AccessCode } from './accesscode';
 import { Utils } from './utils.service';
 
@@ -18,21 +17,21 @@ export class AccessCodeService {
   ) { }
 
   public list() {
-    return this.http.get(environment.server + "/a/accesscodes")
+    return this.http.get(`${environment.server}/accesscodes`)
     .pipe(
       map((s: ServerResponse) => JSON.parse(atob(s.content)))
     )
   }
 
   public add(ac: AccessCode) {
-    return this.http.post(environment.server + "/a/accesscodes", this.utils.params(ac))
+    return this.http.post(`${environment.server}/accesscodes`, this.utils.params(ac))
   }
 
   public update(ac: AccessCode) {
-    return this.http.put(environment.server + "/a/accesscodes/" + ac.id, this.utils.params(ac));
+    return this.http.put(`${environment.server}/accesscodes/${ac.id}`, this.utils.params(ac));
   }
 
   public delete(ac: string) {
-    return this.http.delete(environment.server + "/a/accesscodes/" + ac);
+    return this.http.delete(`${environment.server}/accesscodes/${ac}`);
   }
 }

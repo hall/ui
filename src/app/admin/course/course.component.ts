@@ -64,12 +64,12 @@ export class CourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.refresh();
-    this.scenarioService.list()
+    this.scenarioService.list("admin")
       .subscribe((s: Scenario[]) => this.scenarios = s)
   }
 
   refresh(): void {
-    this.courseService.list()
+    this.courseService.list("admin")
       .subscribe(
         (cList: Course[]) => this.courses = cList
       )
@@ -156,7 +156,6 @@ export class CourseComponent implements OnInit {
     this.selectedCourse.keepalive_duration = this.editForm.get('keepalive_amount').value +
       this.editForm.get('keepalive_unit').value;
     this.selectedCourse.pause_duration = this.editForm.get('pause_duration').value;
-    this.selectedCourse.pauseable = this.editForm.get('pauseable').value;
 
     this.selectedCourse.scenarios = this.dragScenarios;
     this.selectedCourse.virtualmachines = this.editVirtualMachines;

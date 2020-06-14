@@ -117,7 +117,7 @@ export class LoginComponent {
                     localStorage.setItem("hobbyfarm_token", s.message) // not b64 from authenticate
 
                     // redirect to the scenarios page
-                    this.router.navigateByUrl("/app/home")
+                    this.router.navigateByUrl("/")
                 },
                 (e: HttpErrorResponse) => {
                     if (e.error instanceof ErrorEvent) {

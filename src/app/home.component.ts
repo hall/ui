@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient } from '@angular/common/http';
-import { ServerResponse } from './ServerResponse';
-import { Scenario } from './session/Scenario';
+import { Scenario } from './data/scenario';
 import { Course } from './data/course';
-import { environment } from 'src/environments/environment';
 import { UserService } from './services/user.service';
 import { CourseService } from './data/course.service';
-import { ScenarioService } from './services/scenario.service';
+import { ScenarioService } from './data/scenario.service';
 
 @Component({
     selector: 'home-component',
