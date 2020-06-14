@@ -6,6 +6,10 @@ pre[class*="language-"] {
   background: #f8f8f8 !important;
 }
 
+:root {
+  --clr-header-4-bg-color: #0065ad;
+}
+
 /* Dragula Stuff */
 /* in-flight clone */
 .gu-mirror {
