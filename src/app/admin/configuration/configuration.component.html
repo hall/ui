@@ -1,15 +1,13 @@
-<div class="main-container">
-    <div class="content-container">
-        <nav class="sidenav">
-            <section class="sidenav-content">
-                <a href="javascript://" class="nav-link" [routerLink]="['environments']" [routerLinkActive]="'active'">
-                    Environments</a>
-                <a href="javascript://" class="nav-link" [routerLink]="['accesscodes']" [routerLinkActive]="'active'">
-                    Access Codes</a>
-            </section>
-        </nav>
-        <div class="content-area">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
+<div class="content-container">
+  <nav class="sidenav">
+    <section class="sidenav-content">
+      <a href="javascript://" class="nav-link" [routerLink]="['environments']" [routerLinkActive]="'active'">
+        Environments</a>
+      <a href="javascript://" class="nav-link" [routerLink]="['accesscodes']" [routerLinkActive]="'active'">
+        Access Codes</a>
+    </section>
+  </nav>
+  <div class="content-area">
+    <router-outlet></router-outlet>
+  </div>
 </div>
