@@ -55,7 +55,6 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._refresh();
         this.userService.getModifiedObservable()
         .subscribe(
             (_) => {
