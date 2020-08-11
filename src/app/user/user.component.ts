@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ClrModal } from '@clr/angular';
 import { UserEmailFilter } from '../utils/user-email-filter';
 import { UserIdFilter } from '../utils/user-id-filter';
+import { UserAccessCodeFilter } from '../utils/user-accesscode-filter';
 
 @Component({
   selector: 'app-user',
@@ -47,6 +48,7 @@ export class UserComponent implements OnInit {
 
   public emailFilter: UserEmailFilter = new UserEmailFilter();
   public idFilter: UserIdFilter = new UserIdFilter();
+  public acFilter: UserAccessCodeFilter = new UserAccessCodeFilter();
 
   public userDetailsForm: FormGroup = new FormGroup({
     'email': new FormControl(this.editingUser.email, [

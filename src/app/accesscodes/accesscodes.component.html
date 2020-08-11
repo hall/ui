@@ -22,7 +22,6 @@
             <clr-dg-row *clrDgItems="let a of accesscodes; let i = index">
                 <clr-dg-action-overflow>
                     <button class="action-item" (click)="openUpdate(i)">Edit</button>
-                    <button class="action-item" (click)="showUsers(i)">Users</button>
                     <button class="action-item" (click)="delete(a.id)">Delete</button>
                 </clr-dg-action-overflow>
                 <clr-dg-cell>{{ a.code }}</clr-dg-cell>

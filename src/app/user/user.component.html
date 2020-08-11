@@ -11,6 +11,10 @@
           Email
           <clr-dg-string-filter [clrDgStringFilter]="emailFilter"></clr-dg-string-filter>
         </clr-dg-column>
+        <clr-dg-column>
+          Access Codes
+          <clr-dg-string-filter [clrDgStringFilter]="acFilter"></clr-dg-string-filter>
+        </clr-dg-column>
 
         <clr-dg-row *clrDgItems="let u of users">
           <clr-dg-action-overflow>
@@ -21,6 +25,9 @@
 
           <clr-dg-cell>{{ u.id }}</clr-dg-cell>
           <clr-dg-cell>{{ u.email }}</clr-dg-cell>
+          <clr-dg-cell>
+            <span *ngFor="let ac of u.access_codes" class="label">{{ ac }}</span>
+          </clr-dg-cell>
         </clr-dg-row>
 
         <clr-dg-footer>
