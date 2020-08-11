@@ -1,5 +1,5 @@
 import {  Component } from '@angular/core';
-import { CtrService } from '../services/ctr.service';
+import { CtrService } from '../ctr/ctr.service';
 import { OnMount } from '../dynamic-html';
 
 @Component({

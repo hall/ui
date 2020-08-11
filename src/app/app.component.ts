@@ -5,9 +5,9 @@ import { ClrModal } from '@clr/angular';
 import { Router } from '@angular/router';
 import { version } from 'src/environments/version';
 import { environment } from 'src/environments/environment';
-import { UserService } from './services/user.service';
+import { UserService } from './user/user.service';
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { ServerResponse } from './ServerResponse';
+import { ServerResponse } from './utils/server-response';
 import { AppConfigService } from './app-config.service';
 
 @Component({

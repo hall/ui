@@ -1,0 +1,43 @@
+<div class="clr-row">
+    <div class="clr-col">
+        <h3>Access Codes</h3>
+    </div>
+</div>
+<div class="clr-row">
+    <div class="clr-col">
+        <button class="btn btn-success" (click)="openNew()">
+            <clr-icon shape="plus"></clr-icon> New
+        </button>
+    </div>
+</div>
+<div class="clr-row">
+    <div class="clr-col">
+        <clr-datagrid>
+            <clr-dg-column>Code</clr-dg-column>
+            <clr-dg-column>Expiration</clr-dg-column>
+            <clr-dg-column>Description</clr-dg-column>
+            <clr-dg-column>Courses</clr-dg-column>
+            <clr-dg-column>Scenarios</clr-dg-column>
+
+            <clr-dg-row *clrDgItems="let a of accesscodes; let i = index">
+                <clr-dg-action-overflow>
+                    <button class="action-item" (click)="openUpdate(i)">Edit</button>
+                    <button class="action-item" (click)="showUsers(i)">Users</button>
+                    <button class="action-item" (click)="delete(a.id)">Delete</button>
+                </clr-dg-action-overflow>
+                <clr-dg-cell>{{ a.code }}</clr-dg-cell>
+                <clr-dg-cell>{{ a.expiration | date: 'long' }}</clr-dg-cell>
+                <clr-dg-cell>{{ a.description }}</clr-dg-cell>
+                <clr-dg-cell>
+                  <span *ngFor="let course of a.courses" class="label">{{ course }}</span>
+                </clr-dg-cell>
+
+                <clr-dg-cell>
+                  <span *ngFor="let scenario of a.scenarios" class="label">{{ scenario }}</span>
+                </clr-dg-cell>
+            </clr-dg-row>
+        </clr-datagrid>
+    </div>
+</div>
+
+<edit-accesscode-wizard [(updateAc)]="updateAc" (event)="refresh()" #editAccessCodeWizard></edit-accesscode-wizard>

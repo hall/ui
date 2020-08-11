@@ -2,11 +2,11 @@ import { Component, Input, OnChanges, Output, EventEmitter } from "@angular/core
 import { HttpClient } from '@angular/common/http';
 import { map, delay, retryWhen, concatMap } from 'rxjs/operators';
 import { from } from 'rxjs';
-import { VM } from '../VM';
-import { VMClaimService } from '../services/vmclaim.service';
-import { VMClaim } from './VMClaim';
-import { VMService } from '../services/vm.service';
-import { VMClaimVM } from '../VMClaimVM';
+import { VM } from '../vm/vm';
+import { VMClaimService } from './vmclaim.service';
+import { VMClaim } from './vmclaim';
+import { VMService } from '../vm/vm.service';
+import { VMClaimVM } from './vmclaim-vm';
 
 @Component({
     templateUrl: 'vmclaim.component.html',

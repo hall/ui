@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Scenario } from '../data/scenario';
-import { ServerResponse } from '../ServerResponse';
+import { Scenario } from '../scenario/scenario';
+import { ServerResponse } from '../utils/server-response';
 import { environment } from 'src/environments/environment';
 
 @Component({

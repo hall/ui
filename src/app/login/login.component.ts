@@ -1,8 +1,7 @@
 import { Component, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { User } from './User';
-import { ServerResponse } from '../ServerResponse';
+import { ServerResponse } from '../utils/server-response';
 import { environment } from 'src/environments/environment';
 import { AppConfigService } from '../app-config.service';
 import { DomSanitizer } from '@angular/platform-browser';

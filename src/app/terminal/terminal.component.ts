@@ -3,9 +3,9 @@ import { Terminal } from 'xterm';
 import { FitAddon, ITerminalDimensions } from 'xterm-addon-fit';
 import { AttachAddon } from 'xterm-addon-attach';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { CtrService } from '../services/ctr.service';
-import { CodeExec } from '../ctr/CodeExec';
-import { ShellService } from '../services/shell.service';
+import { CtrService } from '../ctr/ctr.service';
+import { CodeExec } from '../ctr/code-exec';
+import { ShellService } from './shell.service';
 import { environment } from 'src/environments/environment';
 import { HostListener } from '@angular/core';
 

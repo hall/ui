@@ -1,14 +1,14 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Scenario } from '../data/scenario';
+import { Scenario } from '../scenario/scenario';
 import { HttpClient } from '@angular/common/http';
 import { concatMap, delay, switchMap } from 'rxjs/operators';
-import { Session } from '../Session';
+import { Session } from './session';
 import { from } from 'rxjs';
-import { ScenarioService } from '../data/scenario.service';
-import { SessionService } from '../services/session.service';
-import { VMClaimService } from '../services/vmclaim.service';
-import { VMClaim } from '../vmclaim/VMClaim';
+import { ScenarioService } from '../scenario/scenario.service';
+import { SessionService } from './session.service';
+import { VMClaimService } from '../vmclaim/vmclaim.service';
+import { VMClaim } from '../vmclaim/vmclaim';
 
 @Component({
     selector: 'session-component',
