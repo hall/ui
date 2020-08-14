@@ -5,7 +5,7 @@ import { ServerResponse } from '../utils/server-response';
 import { environment } from 'src/environments/environment';
 import { AppConfigService } from '../app-config.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ClrModal } from '@clr/angular';
+import { ClrModal, ClrLoadingState } from '@clr/angular';
 
 @Component({
     templateUrl: './login.component.html',
@@ -28,6 +28,9 @@ export class LoginComponent {
     public eula;
     public eulaAnwser;
     public background;
+
+    registerBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
+    loginBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
 
     public loginactive: boolean = false;
     constructor(
@@ -78,6 +81,7 @@ export class LoginComponent {
     }
 
     public actuallyRegister() {
+        this.registerBtnState = ClrLoadingState.LOADING;
         this.error = "";
         let body = new HttpParams()
             .set("email", this.email)
@@ -87,8 +91,13 @@ export class LoginComponent {
         this.http.post(environment.server + "/auth/registerwithaccesscode", body)
             .subscribe(
                 (s: ServerResponse) => {
-                    this.success = "Success! User created. Please login.";
-                    this.loginactive = true;
+                    if (s.status >= 200 && s.status <= 399) {
+                        this.success = s.message
+                        this.loginactive = true;
+                    } else {
+                        this.error = s.message
+                    }
+                    this.registerBtnState = ClrLoadingState.DEFAULT;
                 },
                 (e: HttpErrorResponse) => {
                     if (e.error instanceof ErrorEvent) {
@@ -98,11 +107,13 @@ export class LoginComponent {
                         // backend
                         this.error = e.error.message;
                     }
+                    this.registerBtnState = ClrLoadingState.DEFAULT;
                 }
             )
     }
 
     public login() {
+        this.loginBtnState = ClrLoadingState.LOADING;
         this.error = "";
         let body = new HttpParams()
             .set("email", this.email)
@@ -111,12 +122,13 @@ export class LoginComponent {
         this.http.post(environment.server + "/auth/authenticate", body)
             .subscribe(
                 (s: ServerResponse) => {
-                    // should have a token here
-                    // persist it
-                    localStorage.setItem("hobbyfarm_token", s.message) // not b64 from authenticate
-
-                    // redirect to the scenarios page
-                    this.router.navigateByUrl("/")
+                    if (s.status == 200) {
+                        localStorage.setItem("hobbyfarm_token", s.message) // not b64 from authenticate
+                        this.router.navigateByUrl("/")
+                    } else {
+                        this.error = s.message;
+                    }
+                    this.loginBtnState = ClrLoadingState.DEFAULT;
                 },
                 (e: HttpErrorResponse) => {
                     if (e.error instanceof ErrorEvent) {
@@ -126,6 +138,7 @@ export class LoginComponent {
                         // backend
                         this.error = e.error.message;
                     }
+                    this.loginBtnState = ClrLoadingState.DEFAULT;
                 }
             )
     }
