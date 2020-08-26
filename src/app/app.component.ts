@@ -60,6 +60,13 @@ export class AppComponent implements OnInit {
     public config: AppConfigService,
   ) {
 
+    if (this.Config.cssVariables) {
+      let theme = this.Config.cssVariables
+      for (let key in theme) {
+        document.documentElement.style.setProperty(`--${key}`, theme[key]);
+      }
+    }
+
     if (this.Config.logo) {
       this.logo = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><image width="30" height="40" x="0" y="0" xlink:href="data:image/png;base64,'
                 + this.Config.logo + '" /></svg>'

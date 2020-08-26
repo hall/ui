@@ -20,6 +20,9 @@ A file placed at `/config.json` will allow for runtime configuration (e.g., cust
   "login": {
     "logo": "<base64-encoded image>",
     "background": "<base64-encoded image>"
+  },
+  "cssVariables": {
+    "clr-header-4-bg-color": "red"
   }
 }
 ```
